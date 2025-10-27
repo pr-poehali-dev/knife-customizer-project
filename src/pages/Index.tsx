@@ -309,7 +309,33 @@ const Index = () => {
                       setActiveCard(newActiveCard);
                     }}
                   >
-                    {/* Карточка 1: Клинки */}
+                    {/* Карточка 1: Корпус */}
+                    <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Icon name="Cpu" size={20} className="text-accent" />
+                        <h3 className="text-base font-semibold">Корпус</h3>
+                      </div>
+                      <RadioGroup value={config.body} onValueChange={(value) => setConfig({...config, body: value})}>
+                        <div className="space-y-2">
+                          {bodyOptions.map((body) => (
+                            <div key={body.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                              <RadioGroupItem value={body.id} id={`body-${body.id}-desktop`} />
+                              <Label 
+                                htmlFor={`body-${body.id}-desktop`}
+                                className="flex-1 flex items-center justify-between cursor-pointer"
+                              >
+                                <span>{body.name}</span>
+                                <span className="text-sm text-muted-foreground font-medium">
+                                  {body.price === 0 ? '—' : `${body.price.toLocaleString('ru-RU')} ₽`}
+                                </span>
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
+                      </RadioGroup>
+                    </Card>
+
+                    {/* Карточка 2: Клинки */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon name="Sword" size={20} className="text-accent" />
@@ -340,7 +366,7 @@ const Index = () => {
                       </div>
                     </Card>
 
-                    {/* Карточка 2: Обработка */}
+                    {/* Карточка 3: Обработка */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-3">
                       <Icon name="Sparkles" size={20} className="text-accent" />
@@ -358,32 +384,6 @@ const Index = () => {
                               <span>{finish.name}</span>
                               <span className="text-sm text-muted-foreground font-medium">
                                 {finish.price === 0 ? 'Включено' : `${finish.price.toLocaleString('ru-RU')} ₽`}
-                              </span>
-                            </Label>
-                          </div>
-                        ))}
-                      </div>
-                    </RadioGroup>
-                  </Card>
-
-                  {/* Карточка 3: Корпус */}
-                  <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Cpu" size={20} className="text-accent" />
-                      <h3 className="text-base font-semibold">Корпус</h3>
-                    </div>
-                    <RadioGroup value={config.body} onValueChange={(value) => setConfig({...config, body: value})}>
-                      <div className="space-y-2">
-                        {bodyOptions.map((body) => (
-                          <div key={body.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
-                            <RadioGroupItem value={body.id} id={`body-${body.id}-desktop`} />
-                            <Label 
-                              htmlFor={`body-${body.id}-desktop`}
-                              className="flex-1 flex items-center justify-between cursor-pointer"
-                            >
-                              <span>{body.name}</span>
-                              <span className="text-sm text-muted-foreground font-medium">
-                                {body.price === 0 ? '—' : `${body.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
                           </div>
@@ -677,12 +677,12 @@ const Index = () => {
                 
                 <div className="flex flex-col items-center gap-2 flex-1">
                   <h3 className="text-base font-semibold text-center">
-                    {['Клинки', 'Обработка', 'Корпус', 'Ножны', 'Дополнительно', 'Упаковка'][mobileActiveCard]}
+                    {['Корпус', 'Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'][mobileActiveCard]}
                   </h3>
                   
                   {/* Индикатор этапов (точки) */}
                   <div className="flex justify-center gap-2">
-                    {['Клинки', 'Обработка', 'Корпус', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
+                    {['Корпус', 'Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
                       <button
                         key={index}
                         onClick={() => {
@@ -732,6 +732,35 @@ const Index = () => {
                     setMobileActiveCard(newActiveCard);
                   }}
                 >
+                  {/* Карточка: Корпус */}
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                    <RadioGroup value={config.body} onValueChange={(value) => setConfig(prev => ({ ...prev, body: value }))}>
+                      <div className="space-y-1.5">
+                        {bodyOptions.map(body => (
+                          <div
+                            key={body.id}
+                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
+                              config.body === body.id
+                                ? 'border-accent bg-accent/10'
+                                : 'border-border/40'
+                            }`}
+                            onClick={() => setConfig(prev => ({ ...prev, body: body.id }))}
+                          >
+                            <div className="flex items-center gap-2">
+                              <RadioGroupItem value={body.id} id={`mobile-body-${body.id}`} />
+                              <Label htmlFor={`mobile-body-${body.id}`} className="flex-1 cursor-pointer font-medium text-sm">
+                                {body.name}
+                              </Label>
+                              <p className="text-sm text-muted-foreground">
+                                {body.price === 0 ? 'Бесплатно' : `+${body.price.toLocaleString()} ₽`}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
                   {/* Карточка: Клинки */}
                   <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
                     <div className="space-y-1.5 flex-1 overflow-y-auto">
@@ -776,35 +805,6 @@ const Index = () => {
                               </Label>
                               <p className="text-sm text-muted-foreground">
                                 {finish.price === 0 ? 'Бесплатно' : `+${finish.price.toLocaleString()} ₽`}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </RadioGroup>
-                  </Card>
-
-                  {/* Карточка: Корпус */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
-                    <RadioGroup value={config.body} onValueChange={(value) => setConfig(prev => ({ ...prev, body: value }))}>
-                      <div className="space-y-1.5">
-                        {bodyOptions.map(body => (
-                          <div
-                            key={body.id}
-                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
-                              config.body === body.id
-                                ? 'border-accent bg-accent/10'
-                                : 'border-border/40'
-                            }`}
-                            onClick={() => setConfig(prev => ({ ...prev, body: body.id }))}
-                          >
-                            <div className="flex items-center gap-2">
-                              <RadioGroupItem value={body.id} id={`mobile-body-${body.id}`} />
-                              <Label htmlFor={`mobile-body-${body.id}`} className="flex-1 cursor-pointer font-medium text-sm">
-                                {body.name}
-                              </Label>
-                              <p className="text-sm text-muted-foreground">
-                                {body.price === 0 ? 'Бесплатно' : `+${body.price.toLocaleString()} ₽`}
                               </p>
                             </div>
                           </div>
