@@ -193,25 +193,23 @@ const Index = () => {
         {activeSection === 'configurator' && (
           <>
             {/* Десктопная версия */}
-            <div className="hidden lg:flex lg:flex-col lg:h-[calc(100vh-12rem)] lg:gap-6">
-              {/* Верхняя половина: Фото + Сводка */}
-              <div className="grid lg:grid-cols-3 gap-6 h-[48vh]">
-                {/* Фото ножа - 2/3 ширины */}
-                <div className="lg:col-span-2">
-                  <Card className="p-0 overflow-hidden bg-card border-border/40 h-full">
-                    <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
-                      <img 
-                        key={imageKey}
-                        src={currentImage}
-                        alt="Комплект ножа"
-                        className="w-full h-full object-cover animate-fade-in"
-                      />
-                    </div>
-                  </Card>
-                </div>
+            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6 lg:h-[calc(100vh-12rem)]">
+              {/* Левая часть: Фото + Конфигурация */}
+              <div className="flex flex-col gap-6">
+                {/* Фото ножа */}
+                <Card className="p-0 overflow-hidden bg-card border-border/40 flex-1">
+                  <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
+                    <img 
+                      key={imageKey}
+                      src={currentImage}
+                      alt="Комплект ножа"
+                      className="w-full h-full object-cover animate-fade-in"
+                    />
+                  </div>
+                </Card>
 
-                {/* Сводка конфигурации - 1/3 ширины */}
-                <div className="lg:col-span-1">
+                {/* Сводка конфигурации */}
+                <div className="h-auto">
                   <Card className="p-6 bg-card border-border/40 h-full flex flex-col">
                     <div className="flex-1 space-y-4">
                       <div>
@@ -299,11 +297,11 @@ const Index = () => {
                     
                     <div className="space-y-3 mt-4">
                       <Button 
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold"
+                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-6 text-lg font-semibold"
                         disabled={config.blades.length === 0}
                       >
-                        <Icon name="ShoppingCart" size={20} className="mr-2" />
-                        Заказать сейчас
+                        <Icon name="Rocket" size={20} className="mr-2" />
+                        Запустить в изготовление
                       </Button>
                       
                       {config.blades.length === 0 && (
@@ -316,8 +314,8 @@ const Index = () => {
                 </div>
               </div>
 
-              {/* Нижняя половина: Горизонтальный скролл карточек */}
-              <div className="flex-1 overflow-hidden">
+              {/* Правая часть: Горизонтальный скролл карточек настроек */}
+              <div className="overflow-hidden">
                 <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory h-full pb-2" style={{ scrollbarWidth: 'thin' }}>
                   {/* Карточка 1: Клинки */}
                   <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
