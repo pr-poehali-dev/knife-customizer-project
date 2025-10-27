@@ -896,9 +896,9 @@ const Index = () => {
             </div>
 
             {/* Мобильная версия */}
-            <div className="lg:hidden flex flex-col h-[calc(100vh-8rem)] gap-2">
+            <div className="lg:hidden flex flex-col gap-2 pb-4">
               {/* Фото ножа - верхняя часть */}
-              <Card className="p-0 overflow-hidden bg-card border-border/40 h-[45vh]">
+              <Card className="p-0 overflow-hidden bg-card border-border/40 h-[40vh] flex-shrink-0">
                 <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
                   <img 
                     key={imageKey}
@@ -963,7 +963,7 @@ const Index = () => {
               </Card>
 
               {/* Заголовок с навигацией и точками */}
-              <div className="flex items-center justify-center gap-3 py-3">
+              <div className="flex items-center justify-center gap-3 py-2 flex-shrink-0">
                 <button
                   onClick={() => {
                     const container = document.querySelector('.mobile-config-scroll');
@@ -1025,9 +1025,9 @@ const Index = () => {
               </div>
 
               {/* Горизонтальная прокрутка конфигураций */}
-              <div className="flex-1 overflow-hidden">
+              <div className="flex-shrink-0">
                 <div 
-                  className="mobile-config-scroll flex gap-3 h-full overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
+                  className="mobile-config-scroll flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
                   onScroll={(e) => {
                     const scrollLeft = e.currentTarget.scrollLeft;
                     const cardWidth = e.currentTarget.querySelector('.snap-center')?.clientWidth || 300;
@@ -1037,9 +1037,9 @@ const Index = () => {
                   }}
                 >
                   {/* Карточка: Корпус */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
                     <RadioGroup value={config.body} onValueChange={(value) => setConfig(prev => ({ ...prev, body: value }))}>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 overflow-y-auto h-full p-3">
                         {bodyOptions.map(body => (
                           <div
                             key={body.id}
@@ -1066,8 +1066,8 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Клинки */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
-                    <div className="space-y-1.5 flex-1 overflow-y-auto">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
+                    <div className="space-y-1.5 overflow-y-auto h-full p-3">
                       {bladeOptions.map(blade => (
                         <div
                           key={blade.id}
@@ -1089,9 +1089,9 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Обработка */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig(prev => ({ ...prev, finish: value }))}>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 overflow-y-auto h-full p-3">
                         {finishOptions.map(finish => (
                           <div
                             key={finish.id}
@@ -1118,9 +1118,9 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Ножны */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig(prev => ({ ...prev, sheath: value }))}>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 overflow-y-auto h-full p-3">
                         {sheathOptions.map(sheath => (
                           <div
                             key={sheath.id}
@@ -1147,8 +1147,8 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Дополнительно */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
-                    <div className="space-y-1.5 flex-1 overflow-y-auto">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
+                    <div className="space-y-1.5 overflow-y-auto h-full p-3">
                       <div
                         onClick={() => setConfig(prev => ({ ...prev, springs: !prev.springs }))}
                         className={`p-2.5 rounded-lg border-2 cursor-pointer ${
@@ -1191,9 +1191,10 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Упаковка и заказ */}
-                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
-                    <RadioGroup value={config.packaging} onValueChange={(value) => setConfig(prev => ({ ...prev, packaging: value }))}>
-                      <div className="space-y-1.5 mb-4">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
+                    <div className="overflow-y-auto h-full p-3 flex flex-col">
+                      <RadioGroup value={config.packaging} onValueChange={(value) => setConfig(prev => ({ ...prev, packaging: value }))}>
+                        <div className="space-y-1.5 mb-4">
                         {packagingOptions.map(pkg => (
                           <div
                             key={pkg.id}
@@ -1232,6 +1233,7 @@ const Index = () => {
                         Выберите хотя бы один клинок
                       </p>
                     )}
+                    </div>
                   </Card>
                 </div>
               </div>
