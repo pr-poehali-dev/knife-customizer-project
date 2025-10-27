@@ -56,13 +56,13 @@ const Index = () => {
 
   const sheathOptions = [
     { id: 'none', name: 'Без ножен', price: 0 },
-    { id: 'kydex', name: 'Кайдекс', price: 2500 },
-    { id: 'leather', name: 'Кожа', price: 3800 }
+    { id: 'kydex', name: 'Кайдекс', price: 2350 },
+    { id: 'leather', name: 'Кожа', price: 1550 }
   ];
 
   const packagingOptions = [
     { id: 'bag', name: 'Пакет', price: 0 },
-    { id: 'wooden-box', name: 'Деревянный футляр', price: 4500 }
+    { id: 'wooden-box', name: 'Деревянный футляр', price: 1550 }
   ];
 
   const knifeImages: Record<string, string> = {
