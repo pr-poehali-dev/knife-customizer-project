@@ -190,12 +190,12 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-3 lg:py-4">
+      <main className="container mx-auto px-4 py-2 lg:py-3">
         {activeSection === 'configurator' && (
           <>
             {/* Десктопная версия */}
-            <div className="hidden lg:grid lg:grid-cols-[1fr,1.2fr] lg:gap-3 lg:h-[calc(100vh-6.5rem)]">
-              {/* Левая часть: Фото ножа */}
+            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-3 lg:h-[calc(100vh-6rem)]">
+              {/* Левая часть: Фото ножа - 50% ширины */}
               <Card className="p-0 overflow-hidden bg-card border-border/40">
                 <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
                   <img 
@@ -207,29 +207,30 @@ const Index = () => {
                 </div>
               </Card>
 
-              {/* Правая часть: Конфигурация + Итог */}
-              <div className="flex flex-col gap-2.5">
-                {/* Карточки конфигурации */}
-                <div className="flex-1 min-h-0 overflow-hidden flex flex-col gap-2">
+              {/* Правая часть: Конфигурация (сверху) + Итог (снизу) - 50% ширины */}
+              <div className="flex flex-col gap-3 h-full">
+                {/* Верхний блок: Карточки конфигурации - занимает ~58% высоты */}
+                <div className="flex-[1.4] min-h-0 overflow-hidden flex flex-col gap-2">
                   <div 
-                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory flex-1 pb-2" 
+                    className="flex gap-3 overflow-x-auto snap-x snap-mandatory flex-1 pb-1" 
                     style={{ scrollbarWidth: 'thin' }}
                     onScroll={(e) => {
                       const scrollLeft = e.currentTarget.scrollLeft;
-                      const cardWidth = 420 + 16;
-                      const newActiveCard = Math.round(scrollLeft / cardWidth);
+                      const cardWidth = e.currentTarget.querySelector('.snap-start')?.clientWidth || 400;
+                      const gap = 12;
+                      const newActiveCard = Math.round(scrollLeft / (cardWidth + gap));
                       setActiveCard(newActiveCard);
                     }}
                   >
                     {/* Карточка 1: Клинки */}
-                    <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                    <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-2">
-                        <Icon name="Sword" size={18} className="text-accent" />
+                        <Icon name="Sword" size={16} className="text-accent" />
                         <h3 className="text-sm font-semibold">Клинки</h3>
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1">
                         {bladeOptions.map((blade) => (
-                          <div key={blade.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={blade.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
                             <Checkbox
                               id={`blade-${blade.id}-desktop`}
                               checked={config.blades.includes(blade.id)}
@@ -253,15 +254,15 @@ const Index = () => {
                     </Card>
 
                     {/* Карточка 2: Обработка */}
-                    <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                    <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Sparkles" size={18} className="text-accent" />
+                      <Icon name="Sparkles" size={16} className="text-accent" />
                       <h3 className="text-sm font-semibold">Обработка</h3>
                     </div>
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig({...config, finish: value})}>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1">
                         {finishOptions.map((finish) => (
-                          <div key={finish.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={finish.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={finish.id} id={`finish-${finish.id}-desktop`} />
                             <Label 
                               htmlFor={`finish-${finish.id}-desktop`}
@@ -279,15 +280,15 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 3: Ножны */}
-                  <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                  <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Package" size={18} className="text-accent" />
+                      <Icon name="Package" size={16} className="text-accent" />
                       <h3 className="text-sm font-semibold">Ножны</h3>
                     </div>
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig({...config, sheath: value})}>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1">
                         {sheathOptions.map((sheath) => (
-                          <div key={sheath.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={sheath.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={sheath.id} id={`sheath-${sheath.id}-desktop`} />
                             <Label 
                               htmlFor={`sheath-${sheath.id}-desktop`}
@@ -305,13 +306,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 4: Дополнительно */}
-                  <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                  <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Plus" size={18} className="text-accent" />
+                      <Icon name="Plus" size={16} className="text-accent" />
                       <h3 className="text-sm font-semibold">Дополнительно</h3>
                     </div>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                    <div className="space-y-1">
+                      <div className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
                         <Checkbox
                           id="springs-desktop"
                           checked={config.springs}
@@ -357,15 +358,15 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 5: Упаковка */}
-                  <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                  <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Gift" size={18} className="text-accent" />
+                      <Icon name="Gift" size={16} className="text-accent" />
                       <h3 className="text-sm font-semibold">Упаковка</h3>
                     </div>
                     <RadioGroup value={config.packaging} onValueChange={(value) => setConfig({...config, packaging: value})}>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1">
                         {packagingOptions.map((pkg) => (
-                          <div key={pkg.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={pkg.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={pkg.id} id={`pkg-${pkg.id}-desktop`} />
                             <Label 
                               htmlFor={`pkg-${pkg.id}-desktop`}
@@ -384,7 +385,7 @@ const Index = () => {
                 </div>
 
                   {/* Индикаторы карточек */}
-                  <div className="flex justify-center gap-2">
+                  <div className="flex justify-center gap-2 flex-shrink-0">
                     {[0, 1, 2, 3, 4].map((index) => (
                       <button
                         key={index}
@@ -406,10 +407,10 @@ const Index = () => {
                   </div>
                 </div>
 
-                {/* Итоговая конфигурация */}
-                <Card className="p-3 bg-card border-border/40 max-h-[180px] overflow-y-auto">
-                  <h3 className="text-xs font-medium text-muted-foreground mb-1.5">Ваша конфигурация</h3>
-                  <div className="space-y-1 text-xs mb-2">
+                {/* Нижний блок: Итоговая конфигурация - занимает ~42% высоты */}
+                <Card className="flex-1 p-3 bg-card border-border/40 overflow-hidden flex flex-col">
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Ваша конфигурация</h3>
+                  <div className="flex-1 overflow-y-auto space-y-1.5 text-sm mb-2">
                     {config.blades.length > 0 ? (
                       config.blades.map(bladeId => {
                         const blade = bladeOptions.find(b => b.id === bladeId);
@@ -479,28 +480,30 @@ const Index = () => {
                     )}
                   </div>
                   
-                  <Separator className="my-1.5" />
-                  
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold">Итого:</span>
-                    <span className="text-base font-bold text-primary">
-                      {calculateTotal().toLocaleString('ru-RU')} ₽
-                    </span>
+                  <div className="flex-shrink-0 space-y-2">
+                    <Separator />
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold">Итого:</span>
+                      <span className="text-lg font-bold text-primary">
+                        {calculateTotal().toLocaleString('ru-RU')} ₽
+                      </span>
+                    </div>
+                    
+                    <Button 
+                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-2.5 text-sm font-semibold"
+                      disabled={config.blades.length === 0}
+                    >
+                      <Icon name="Rocket" size={16} className="mr-2" />
+                      Запустить в изготовление
+                    </Button>
+                    
+                    {config.blades.length === 0 && (
+                      <p className="text-xs text-muted-foreground text-center">
+                        Выберите хотя бы один клинок
+                      </p>
+                    )}
                   </div>
-                  
-                  <Button 
-                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-2 text-xs font-semibold"
-                    disabled={config.blades.length === 0}
-                  >
-                    <Icon name="Rocket" size={14} className="mr-1.5" />
-                    Запустить в изготовление
-                  </Button>
-                  
-                  {config.blades.length === 0 && (
-                    <p className="text-[10px] text-muted-foreground text-center mt-1.5">
-                      Выберите хотя бы один клинок
-                    </p>
-                  )}
                 </Card>
               </div>
             </div>
