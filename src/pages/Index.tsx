@@ -686,13 +686,13 @@ const Index = () => {
                   }}
                 >
                   {/* Карточка: Клинки */}
-                  <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="space-y-2 flex-1 overflow-y-auto">
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                    <div className="space-y-1.5 flex-1 overflow-y-auto">
                       {bladeOptions.map(blade => (
                         <div
                           key={blade.id}
                           onClick={() => toggleBlade(blade.id)}
-                          className={`p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                          className={`p-2.5 rounded-lg border-2 cursor-pointer transition-all ${
                             config.blades.includes(blade.id)
                               ? 'border-accent bg-accent/10'
                               : 'border-border/40'
@@ -700,10 +700,8 @@ const Index = () => {
                         >
                           <div className="flex items-center gap-2">
                             <Checkbox checked={config.blades.includes(blade.id)} />
-                            <div className="flex-1">
-                              <p className="font-medium text-sm">{blade.name}</p>
-                              <p className="text-xs text-muted-foreground">{blade.price.toLocaleString()} ₽</p>
-                            </div>
+                            <p className="font-medium text-sm flex-1">{blade.name}</p>
+                            <p className="text-sm text-muted-foreground">{blade.price.toLocaleString()} ₽</p>
                           </div>
                         </div>
                       ))}
@@ -711,13 +709,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Обработка */}
-                  <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig(prev => ({ ...prev, finish: value }))}>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {finishOptions.map(finish => (
                           <div
                             key={finish.id}
-                            className={`p-3 rounded-lg border-2 cursor-pointer ${
+                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                               config.finish === finish.id
                                 ? 'border-accent bg-accent/10'
                                 : 'border-border/40'
@@ -726,12 +724,12 @@ const Index = () => {
                           >
                             <div className="flex items-center gap-2">
                               <RadioGroupItem value={finish.id} id={`mobile-finish-${finish.id}`} />
-                              <Label htmlFor={`mobile-finish-${finish.id}`} className="flex-1 cursor-pointer">
-                                <p className="font-medium text-sm">{finish.name}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {finish.price === 0 ? 'Бесплатно' : `+${finish.price.toLocaleString()} ₽`}
-                                </p>
+                              <Label htmlFor={`mobile-finish-${finish.id}`} className="flex-1 cursor-pointer font-medium text-sm">
+                                {finish.name}
                               </Label>
+                              <p className="text-sm text-muted-foreground">
+                                {finish.price === 0 ? 'Бесплатно' : `+${finish.price.toLocaleString()} ₽`}
+                              </p>
                             </div>
                           </div>
                         ))}
@@ -740,13 +738,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Ножны */}
-                  <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig(prev => ({ ...prev, sheath: value }))}>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {sheathOptions.map(sheath => (
                           <div
                             key={sheath.id}
-                            className={`p-3 rounded-lg border-2 cursor-pointer ${
+                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                               config.sheath === sheath.id
                                 ? 'border-accent bg-accent/10'
                                 : 'border-border/40'
@@ -755,12 +753,12 @@ const Index = () => {
                           >
                             <div className="flex items-center gap-2">
                               <RadioGroupItem value={sheath.id} id={`mobile-sheath-${sheath.id}`} />
-                              <Label htmlFor={`mobile-sheath-${sheath.id}`} className="flex-1 cursor-pointer">
-                                <p className="font-medium text-sm">{sheath.name}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {sheath.price === 0 ? 'Бесплатно' : `+${sheath.price.toLocaleString()} ₽`}
-                                </p>
+                              <Label htmlFor={`mobile-sheath-${sheath.id}`} className="flex-1 cursor-pointer font-medium text-sm">
+                                {sheath.name}
                               </Label>
+                              <p className="text-sm text-muted-foreground">
+                                {sheath.price === 0 ? 'Бесплатно' : `+${sheath.price.toLocaleString()} ₽`}
+                              </p>
                             </div>
                           </div>
                         ))}
@@ -769,63 +767,57 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Дополнительно */}
-                  <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="space-y-2 flex-1 overflow-y-auto">
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                    <div className="space-y-1.5 flex-1 overflow-y-auto">
                       <div
                         onClick={() => setConfig(prev => ({ ...prev, springs: !prev.springs }))}
-                        className={`p-3 rounded-lg border-2 cursor-pointer ${
+                        className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                           config.springs ? 'border-accent bg-accent/10' : 'border-border/40'
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           <Checkbox checked={config.springs} />
-                          <div className="flex-1">
-                            <p className="font-medium text-sm">Запасные пружины</p>
-                            <p className="text-xs text-muted-foreground">+800 ₽</p>
-                          </div>
+                          <p className="font-medium text-sm flex-1">Запасные пружины</p>
+                          <p className="text-sm text-muted-foreground">+800 ₽</p>
                         </div>
                       </div>
 
                       <div
                         onClick={() => setConfig(prev => ({ ...prev, toolkit: !prev.toolkit }))}
-                        className={`p-3 rounded-lg border-2 cursor-pointer ${
+                        className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                           config.toolkit ? 'border-accent bg-accent/10' : 'border-border/40'
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           <Checkbox checked={config.toolkit} />
-                          <div className="flex-1">
-                            <p className="font-medium text-sm">Набор отвёрток</p>
-                            <p className="text-xs text-muted-foreground">+1 200 ₽</p>
-                          </div>
+                          <p className="font-medium text-sm flex-1">Набор отвёрток</p>
+                          <p className="text-sm text-muted-foreground">+1 200 ₽</p>
                         </div>
                       </div>
 
                       <div
                         onClick={() => setConfig(prev => ({ ...prev, oilcan: !prev.oilcan }))}
-                        className={`p-3 rounded-lg border-2 cursor-pointer ${
+                        className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                           config.oilcan ? 'border-accent bg-accent/10' : 'border-border/40'
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           <Checkbox checked={config.oilcan} />
-                          <div className="flex-1">
-                            <p className="font-medium text-sm">Масленка</p>
-                            <p className="text-xs text-muted-foreground">+450 ₽</p>
-                          </div>
+                          <p className="font-medium text-sm flex-1">Масленка</p>
+                          <p className="text-sm text-muted-foreground">+450 ₽</p>
                         </div>
                       </div>
                     </div>
                   </Card>
 
                   {/* Карточка: Упаковка и заказ */}
-                  <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
                     <RadioGroup value={config.packaging} onValueChange={(value) => setConfig(prev => ({ ...prev, packaging: value }))}>
-                      <div className="space-y-2 mb-4">
+                      <div className="space-y-1.5 mb-4">
                         {packagingOptions.map(pkg => (
                           <div
                             key={pkg.id}
-                            className={`p-3 rounded-lg border-2 cursor-pointer ${
+                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                               config.packaging === pkg.id
                                 ? 'border-accent bg-accent/10'
                                 : 'border-border/40'
@@ -834,12 +826,12 @@ const Index = () => {
                           >
                             <div className="flex items-center gap-2">
                               <RadioGroupItem value={pkg.id} id={`mobile-pkg-${pkg.id}`} />
-                              <Label htmlFor={`mobile-pkg-${pkg.id}`} className="flex-1 cursor-pointer">
-                                <p className="font-medium text-sm">{pkg.name}</p>
-                                <p className="text-xs text-muted-foreground">
-                                  {pkg.price === 0 ? 'Бесплатно' : `+${pkg.price.toLocaleString()} ₽`}
-                                </p>
+                              <Label htmlFor={`mobile-pkg-${pkg.id}`} className="flex-1 cursor-pointer font-medium text-sm">
+                                {pkg.name}
                               </Label>
+                              <p className="text-sm text-muted-foreground">
+                                {pkg.price === 0 ? 'Бесплатно' : `+${pkg.price.toLocaleString()} ₽`}
+                              </p>
                             </div>
                           </div>
                         ))}
