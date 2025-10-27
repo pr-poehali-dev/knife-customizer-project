@@ -193,326 +193,286 @@ const Index = () => {
         {activeSection === 'configurator' && (
           <>
             {/* Десктопная версия */}
-            <div className="hidden lg:block">
-              <div className="space-y-6 mb-8">
-                <h2 className="text-4xl font-bold">Создайте свой нож</h2>
-                <p className="text-muted-foreground text-lg">
-                  Выберите опции для создания уникального выкидного ножа ручной работы
-                </p>
-              </div>
-
-              <div className="grid lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                  {/* Большое фото наверху */}
-                  <Card className="p-0 overflow-hidden bg-card border-border/40">
-                    <div className="relative aspect-[16/10] bg-gradient-to-br from-muted/50 to-background">
+            <div className="hidden lg:flex lg:flex-col lg:h-[calc(100vh-12rem)] lg:gap-6">
+              {/* Верхняя половина: Фото + Сводка */}
+              <div className="grid lg:grid-cols-3 gap-6 h-[48vh]">
+                {/* Фото ножа - 2/3 ширины */}
+                <div className="lg:col-span-2">
+                  <Card className="p-0 overflow-hidden bg-card border-border/40 h-full">
+                    <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
                       <img 
                         key={imageKey}
                         src={currentImage}
                         alt="Комплект ножа"
                         className="w-full h-full object-cover animate-fade-in"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 to-transparent p-6">
-                        <p className="text-sm text-muted-foreground">
-                          {config.blades.length > 0 
-                            ? `Выбрано клинков: ${config.blades.length} • ${finishOptions.find(f => f.id === config.finish)?.name}`
-                            : 'Выберите клинки для начала конфигурации'
-                          }
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
-
-                  {/* Конфигурации */}
-                  <Card className="p-6 space-y-6 bg-card border-border/40">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Icon name="Layers" size={24} className="text-accent" />
-                        <h3 className="text-xl font-semibold">Выбор клинков</h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground">Можно выбрать несколько вариантов</p>
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        {bladeOptions.map(blade => (
-                          <div
-                            key={blade.id}
-                            onClick={() => toggleBlade(blade.id)}
-                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                              config.blades.includes(blade.id)
-                                ? 'border-accent bg-accent/10'
-                                : 'border-border/40 hover:border-border'
-                            }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <Checkbox 
-                                checked={config.blades.includes(blade.id)}
-                                onCheckedChange={() => toggleBlade(blade.id)}
-                              />
-                              <Label className="cursor-pointer flex-1">
-                                <p className="font-medium">{blade.name}</p>
-                                <p className="text-sm text-muted-foreground">{blade.price.toLocaleString()} ₽</p>
-                              </Label>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <Separator className="bg-border/40" />
-
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Icon name="Sparkles" size={24} className="text-accent" />
-                        <h3 className="text-xl font-semibold">Обработка клинка</h3>
-                      </div>
-                      <RadioGroup value={config.finish} onValueChange={(value) => setConfig(prev => ({ ...prev, finish: value }))}>
-                        <div className="grid sm:grid-cols-3 gap-4">
-                          {finishOptions.map(finish => (
-                            <div
-                              key={finish.id}
-                              className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                                config.finish === finish.id
-                                  ? 'border-accent bg-accent/10'
-                                  : 'border-border/40 hover:border-border'
-                              }`}
-                              onClick={() => setConfig(prev => ({ ...prev, finish: finish.id }))}
-                            >
-                              <div className="flex items-center gap-3">
-                                <RadioGroupItem value={finish.id} id={`finish-${finish.id}`} />
-                                <Label htmlFor={`finish-${finish.id}`} className="cursor-pointer flex-1">
-                                  <p className="font-medium">{finish.name}</p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {finish.price === 0 ? 'Бесплатно' : `+${finish.price.toLocaleString()} ₽`}
-                                  </p>
-                                </Label>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </RadioGroup>
-                    </div>
-
-                    <Separator className="bg-border/40" />
-
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Icon name="Package" size={24} className="text-accent" />
-                        <h3 className="text-xl font-semibold">Дополнительно</h3>
-                      </div>
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        <div
-                          onClick={() => setConfig(prev => ({ ...prev, springs: !prev.springs }))}
-                          className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                            config.springs
-                              ? 'border-accent bg-accent/10'
-                              : 'border-border/40 hover:border-border'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <Checkbox checked={config.springs} onCheckedChange={(checked) => setConfig(prev => ({ ...prev, springs: checked as boolean }))} />
-                            <Label className="cursor-pointer flex-1">
-                              <p className="font-medium">Запасные пружины</p>
-                              <p className="text-sm text-muted-foreground">+800 ₽</p>
-                            </Label>
-                          </div>
-                        </div>
-
-                        <div
-                          onClick={() => setConfig(prev => ({ ...prev, toolkit: !prev.toolkit }))}
-                          className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                            config.toolkit
-                              ? 'border-accent bg-accent/10'
-                              : 'border-border/40 hover:border-border'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <Checkbox checked={config.toolkit} onCheckedChange={(checked) => setConfig(prev => ({ ...prev, toolkit: checked as boolean }))} />
-                            <Label className="cursor-pointer flex-1">
-                              <p className="font-medium">Набор отвёрток</p>
-                              <p className="text-sm text-muted-foreground">+1 200 ₽</p>
-                            </Label>
-                          </div>
-                        </div>
-
-                        <div
-                          onClick={() => setConfig(prev => ({ ...prev, oilcan: !prev.oilcan }))}
-                          className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                            config.oilcan
-                              ? 'border-accent bg-accent/10'
-                              : 'border-border/40 hover:border-border'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <Checkbox checked={config.oilcan} onCheckedChange={(checked) => setConfig(prev => ({ ...prev, oilcan: checked as boolean }))} />
-                            <Label className="cursor-pointer flex-1">
-                              <p className="font-medium">Масленка</p>
-                              <p className="text-sm text-muted-foreground">+450 ₽</p>
-                            </Label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <Separator className="bg-border/40" />
-
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Icon name="Shield" size={24} className="text-accent" />
-                        <h3 className="text-xl font-semibold">Ножны</h3>
-                      </div>
-                      <RadioGroup value={config.sheath} onValueChange={(value) => setConfig(prev => ({ ...prev, sheath: value }))}>
-                        <div className="grid sm:grid-cols-3 gap-4">
-                          {sheathOptions.map(sheath => (
-                            <div
-                              key={sheath.id}
-                              className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                                config.sheath === sheath.id
-                                  ? 'border-accent bg-accent/10'
-                                  : 'border-border/40 hover:border-border'
-                              }`}
-                              onClick={() => setConfig(prev => ({ ...prev, sheath: sheath.id }))}
-                            >
-                              <div className="flex items-center gap-3">
-                                <RadioGroupItem value={sheath.id} id={`sheath-${sheath.id}`} />
-                                <Label htmlFor={`sheath-${sheath.id}`} className="cursor-pointer flex-1">
-                                  <p className="font-medium">{sheath.name}</p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {sheath.price === 0 ? 'Бесплатно' : `+${sheath.price.toLocaleString()} ₽`}
-                                  </p>
-                                </Label>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </RadioGroup>
-                    </div>
-
-                    <Separator className="bg-border/40" />
-
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Icon name="Gift" size={24} className="text-accent" />
-                        <h3 className="text-xl font-semibold">Упаковка</h3>
-                      </div>
-                      <RadioGroup value={config.packaging} onValueChange={(value) => setConfig(prev => ({ ...prev, packaging: value }))}>
-                        <div className="grid sm:grid-cols-2 gap-4">
-                          {packagingOptions.map(pkg => (
-                            <div
-                              key={pkg.id}
-                              className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:scale-[1.02] ${
-                                config.packaging === pkg.id
-                                  ? 'border-accent bg-accent/10'
-                                  : 'border-border/40 hover:border-border'
-                              }`}
-                              onClick={() => setConfig(prev => ({ ...prev, packaging: pkg.id }))}
-                            >
-                              <div className="flex items-center gap-3">
-                                <RadioGroupItem value={pkg.id} id={`pkg-${pkg.id}`} />
-                                <Label htmlFor={`pkg-${pkg.id}`} className="cursor-pointer flex-1">
-                                  <p className="font-medium">{pkg.name}</p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {pkg.price === 0 ? 'Бесплатно' : `+${pkg.price.toLocaleString()} ₽`}
-                                  </p>
-                                </Label>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </RadioGroup>
                     </div>
                   </Card>
                 </div>
 
+                {/* Сводка конфигурации - 1/3 ширины */}
                 <div className="lg:col-span-1">
-                  <Card className="p-6 sticky top-24 bg-card border-border/40">
-                    <div className="space-y-6">
+                  <Card className="p-6 bg-card border-border/40 h-full flex flex-col">
+                    <div className="flex-1 space-y-4">
                       <div>
-                        <h3 className="text-2xl font-bold mb-2">Ваша конфигурация</h3>
-                        <p className="text-sm text-muted-foreground">Итоговая стоимость</p>
-                      </div>
-
-                      <Separator className="bg-border/40" />
-
-                      <div className="space-y-3 text-sm">
-                        {config.blades.length > 0 && (
-                          <div>
-                            <p className="text-muted-foreground mb-1">Клинки:</p>
-                            {config.blades.map(bladeId => {
+                        <h3 className="text-sm font-medium text-muted-foreground mb-2">Ваша конфигурация</h3>
+                        <div className="space-y-2 text-sm">
+                          {config.blades.length > 0 ? (
+                            config.blades.map(bladeId => {
                               const blade = bladeOptions.find(b => b.id === bladeId);
-                              return (
-                                <div key={bladeId} className="flex justify-between">
-                                  <span>• {blade?.name}</span>
-                                  <span>{blade?.price.toLocaleString()} ₽</span>
+                              return blade ? (
+                                <div key={bladeId} className="flex justify-between items-center">
+                                  <span className="text-foreground">{blade.name}</span>
+                                  <span className="text-muted-foreground">{blade.price.toLocaleString('ru-RU')} ₽</span>
                                 </div>
-                              );
-                            })}
-                          </div>
-                        )}
-
-                        {config.finish && (
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Обработка:</span>
-                            <span>{finishOptions.find(f => f.id === config.finish)?.name}</span>
-                          </div>
-                        )}
-
-                        {config.springs && (
-                          <div className="flex justify-between">
-                            <span>• Запасные пружины</span>
-                            <span>800 ₽</span>
-                          </div>
-                        )}
-
-                        {config.sheath !== 'none' && (
-                          <div className="flex justify-between">
-                            <span>• {sheathOptions.find(s => s.id === config.sheath)?.name}</span>
-                            <span>{sheathOptions.find(s => s.id === config.sheath)?.price.toLocaleString()} ₽</span>
-                          </div>
-                        )}
-
-                        {config.toolkit && (
-                          <div className="flex justify-between">
-                            <span>• Набор отвёрток</span>
-                            <span>1 200 ₽</span>
-                          </div>
-                        )}
-
-                        {config.oilcan && (
-                          <div className="flex justify-between">
-                            <span>• Масленка</span>
-                            <span>450 ₽</span>
-                          </div>
-                        )}
-
-                        {config.packaging === 'wooden-box' && (
-                          <div className="flex justify-between">
-                            <span>• Деревянный футляр</span>
-                            <span>4 500 ₽</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <Separator className="bg-border/40" />
-
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between text-2xl font-bold">
-                          <span>Итого:</span>
-                          <span className="text-accent">{calculateTotal().toLocaleString()} ₽</span>
+                              ) : null;
+                            })
+                          ) : (
+                            <div className="text-muted-foreground/60">Клинок не выбран</div>
+                          )}
+                          
+                          {config.finish && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">
+                                {finishOptions.find(f => f.id === config.finish)?.name}
+                              </span>
+                              <span className="text-muted-foreground">
+                                {finishOptions.find(f => f.id === config.finish)?.price.toLocaleString('ru-RU')} ₽
+                              </span>
+                            </div>
+                          )}
+                          
+                          {config.sheath !== 'none' && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">
+                                {sheathOptions.find(s => s.id === config.sheath)?.name}
+                              </span>
+                              <span className="text-muted-foreground">
+                                {sheathOptions.find(s => s.id === config.sheath)?.price.toLocaleString('ru-RU')} ₽
+                              </span>
+                            </div>
+                          )}
+                          
+                          {config.springs && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">Пружины</span>
+                              <span className="text-muted-foreground">800 ₽</span>
+                            </div>
+                          )}
+                          
+                          {config.toolkit && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">Инструменты</span>
+                              <span className="text-muted-foreground">1,200 ₽</span>
+                            </div>
+                          )}
+                          
+                          {config.oilcan && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">Масленка</span>
+                              <span className="text-muted-foreground">450 ₽</span>
+                            </div>
+                          )}
+                          
+                          {config.packaging && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">
+                                {packagingOptions.find(p => p.id === config.packaging)?.name}
+                              </span>
+                              <span className="text-muted-foreground">
+                                {packagingOptions.find(p => p.id === config.packaging)?.price.toLocaleString('ru-RU')} ₽
+                              </span>
+                            </div>
+                          )}
                         </div>
-
-                        <Button 
-                          className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-6 text-lg"
-                          disabled={config.blades.length === 0}
-                        >
-                          Оформить заказ
-                        </Button>
-
-                        {config.blades.length === 0 && (
-                          <p className="text-xs text-muted-foreground text-center">
-                            Выберите хотя бы один клинок для продолжения
-                          </p>
-                        )}
+                      </div>
+                      
+                      <Separator />
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-lg font-semibold">Итого:</span>
+                        <span className="text-2xl font-bold text-primary">
+                          {calculateTotal().toLocaleString('ru-RU')} ₽
+                        </span>
                       </div>
                     </div>
+                    
+                    <div className="space-y-3 mt-4">
+                      <Button 
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold"
+                        disabled={config.blades.length === 0}
+                      >
+                        <Icon name="ShoppingCart" size={20} className="mr-2" />
+                        Заказать сейчас
+                      </Button>
+                      
+                      {config.blades.length === 0 && (
+                        <p className="text-xs text-muted-foreground text-center">
+                          Выберите хотя бы один клинок для оформления заказа
+                        </p>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Нижняя половина: Горизонтальный скролл карточек */}
+              <div className="flex-1 overflow-hidden">
+                <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory h-full pb-2" style={{ scrollbarWidth: 'thin' }}>
+                  {/* Карточка 1: Клинки */}
+                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Icon name="Sword" className="text-accent" />
+                      <h3 className="text-lg font-semibold">Клинки</h3>
+                    </div>
+                    <div className="space-y-3">
+                      {bladeOptions.map((blade) => (
+                        <div key={blade.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                          <Checkbox
+                            id={`blade-${blade.id}-desktop`}
+                            checked={config.blades.includes(blade.id)}
+                            onCheckedChange={() => toggleBlade(blade.id)}
+                          />
+                          <Label 
+                            htmlFor={`blade-${blade.id}-desktop`}
+                            className="flex-1 flex items-center justify-between cursor-pointer"
+                          >
+                            <span>{blade.name}</span>
+                            <span className="text-muted-foreground font-medium">{blade.price.toLocaleString('ru-RU')} ₽</span>
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+
+                  {/* Карточка 2: Обработка */}
+                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Icon name="Sparkles" className="text-accent" />
+                      <h3 className="text-lg font-semibold">Обработка</h3>
+                    </div>
+                    <RadioGroup value={config.finish} onValueChange={(value) => setConfig({...config, finish: value})}>
+                      <div className="space-y-3">
+                        {finishOptions.map((finish) => (
+                          <div key={finish.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                            <RadioGroupItem value={finish.id} id={`finish-${finish.id}-desktop`} />
+                            <Label 
+                              htmlFor={`finish-${finish.id}-desktop`}
+                              className="flex-1 flex items-center justify-between cursor-pointer"
+                            >
+                              <span>{finish.name}</span>
+                              <span className="text-muted-foreground font-medium">
+                                {finish.price === 0 ? 'Включено' : `${finish.price.toLocaleString('ru-RU')} ₽`}
+                              </span>
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
+                  {/* Карточка 3: Ножны */}
+                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Icon name="Package" className="text-accent" />
+                      <h3 className="text-lg font-semibold">Ножны</h3>
+                    </div>
+                    <RadioGroup value={config.sheath} onValueChange={(value) => setConfig({...config, sheath: value})}>
+                      <div className="space-y-3">
+                        {sheathOptions.map((sheath) => (
+                          <div key={sheath.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                            <RadioGroupItem value={sheath.id} id={`sheath-${sheath.id}-desktop`} />
+                            <Label 
+                              htmlFor={`sheath-${sheath.id}-desktop`}
+                              className="flex-1 flex items-center justify-between cursor-pointer"
+                            >
+                              <span>{sheath.name}</span>
+                              <span className="text-muted-foreground font-medium">
+                                {sheath.price === 0 ? '—' : `${sheath.price.toLocaleString('ru-RU')} ₽`}
+                              </span>
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
+                  {/* Карточка 4: Дополнительно */}
+                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Icon name="Plus" className="text-accent" />
+                      <h3 className="text-lg font-semibold">Дополнительно</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                        <Checkbox
+                          id="springs-desktop"
+                          checked={config.springs}
+                          onCheckedChange={(checked) => setConfig({...config, springs: checked as boolean})}
+                        />
+                        <Label 
+                          htmlFor="springs-desktop"
+                          className="flex-1 flex items-center justify-between cursor-pointer"
+                        >
+                          <span>Пружины</span>
+                          <span className="text-muted-foreground font-medium">800 ₽</span>
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                        <Checkbox
+                          id="toolkit-desktop"
+                          checked={config.toolkit}
+                          onCheckedChange={(checked) => setConfig({...config, toolkit: checked as boolean})}
+                        />
+                        <Label 
+                          htmlFor="toolkit-desktop"
+                          className="flex-1 flex items-center justify-between cursor-pointer"
+                        >
+                          <span>Инструменты</span>
+                          <span className="text-muted-foreground font-medium">1,200 ₽</span>
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                        <Checkbox
+                          id="oilcan-desktop"
+                          checked={config.oilcan}
+                          onCheckedChange={(checked) => setConfig({...config, oilcan: checked as boolean})}
+                        />
+                        <Label 
+                          htmlFor="oilcan-desktop"
+                          className="flex-1 flex items-center justify-between cursor-pointer"
+                        >
+                          <span>Масленка</span>
+                          <span className="text-muted-foreground font-medium">450 ₽</span>
+                        </Label>
+                      </div>
+                    </div>
+                  </Card>
+
+                  {/* Карточка 5: Упаковка */}
+                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Icon name="Gift" className="text-accent" />
+                      <h3 className="text-lg font-semibold">Упаковка</h3>
+                    </div>
+                    <RadioGroup value={config.packaging} onValueChange={(value) => setConfig({...config, packaging: value})}>
+                      <div className="space-y-3">
+                        {packagingOptions.map((pkg) => (
+                          <div key={pkg.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                            <RadioGroupItem value={pkg.id} id={`pkg-${pkg.id}-desktop`} />
+                            <Label 
+                              htmlFor={`pkg-${pkg.id}-desktop`}
+                              className="flex-1 flex items-center justify-between cursor-pointer"
+                            >
+                              <span>{pkg.name}</span>
+                              <span className="text-muted-foreground font-medium">
+                                {pkg.price === 0 ? 'Включено' : `${pkg.price.toLocaleString('ru-RU')} ₽`}
+                              </span>
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
                   </Card>
                 </div>
               </div>
