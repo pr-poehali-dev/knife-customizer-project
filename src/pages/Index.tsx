@@ -27,6 +27,7 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState<'configurator' | 'gallery' | 'about'>('configurator');
   const [currentImage, setCurrentImage] = useState('https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg');
   const [imageKey, setImageKey] = useState(0);
+  const [activeCard, setActiveCard] = useState(0);
   
   const [config, setConfig] = useState<Config>({
     blades: [],
@@ -193,11 +194,11 @@ const Index = () => {
         {activeSection === 'configurator' && (
           <>
             {/* Десктопная версия */}
-            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6 lg:h-[calc(100vh-12rem)]">
+            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6 lg:h-[calc(100vh-10rem)] lg:max-h-[900px]">
               {/* Левая часть: Фото + Конфигурация */}
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4">
                 {/* Фото ножа */}
-                <Card className="p-0 overflow-hidden bg-card border-border/40 flex-1">
+                <Card className="p-0 overflow-hidden bg-card border-border/40 flex-1 min-h-0">
                   <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
                     <img 
                       key={imageKey}
@@ -209,9 +210,8 @@ const Index = () => {
                 </Card>
 
                 {/* Сводка конфигурации */}
-                <div className="h-auto">
-                  <Card className="p-6 bg-card border-border/40 h-full flex flex-col">
-                    <div className="flex-1 space-y-4">
+                <Card className="p-4 bg-card border-border/40 flex flex-col max-h-[340px] overflow-y-auto">
+                  <div className="space-y-3">
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-2">Ваша конфигурация</h3>
                         <div className="space-y-2 text-sm">
@@ -285,38 +285,46 @@ const Index = () => {
                         </div>
                       </div>
                       
-                      <Separator />
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-semibold">Итого:</span>
-                        <span className="text-2xl font-bold text-primary">
-                          {calculateTotal().toLocaleString('ru-RU')} ₽
-                        </span>
-                      </div>
-                    </div>
+                    <Separator />
                     
-                    <div className="space-y-3 mt-4">
-                      <Button 
-                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-6 text-lg font-semibold"
-                        disabled={config.blades.length === 0}
-                      >
-                        <Icon name="Rocket" size={20} className="mr-2" />
-                        Запустить в изготовление
-                      </Button>
-                      
-                      {config.blades.length === 0 && (
-                        <p className="text-xs text-muted-foreground text-center">
-                          Выберите хотя бы один клинок для оформления заказа
-                        </p>
-                      )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-semibold">Итого:</span>
+                      <span className="text-2xl font-bold text-primary">
+                        {calculateTotal().toLocaleString('ru-RU')} ₽
+                      </span>
                     </div>
-                  </Card>
-                </div>
+                  </div>
+                  
+                  <div className="space-y-3 mt-4">
+                    <Button 
+                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-5 text-lg font-semibold"
+                      disabled={config.blades.length === 0}
+                    >
+                      <Icon name="Rocket" size={20} className="mr-2" />
+                      Запустить в изготовление
+                    </Button>
+                    
+                    {config.blades.length === 0 && (
+                      <p className="text-xs text-muted-foreground text-center">
+                        Выберите хотя бы один клинок для оформления заказа
+                      </p>
+                    )}
+                  </div>
+                </Card>
               </div>
 
               {/* Правая часть: Горизонтальный скролл карточек настроек */}
-              <div className="overflow-hidden">
-                <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory h-full pb-2" style={{ scrollbarWidth: 'thin' }}>
+              <div className="overflow-hidden flex flex-col gap-4">
+                <div 
+                  className="flex gap-6 overflow-x-auto snap-x snap-mandatory flex-1 pb-2 min-h-0" 
+                  style={{ scrollbarWidth: 'thin' }}
+                  onScroll={(e) => {
+                    const scrollLeft = e.currentTarget.scrollLeft;
+                    const cardWidth = 500 + 24;
+                    const newActiveCard = Math.round(scrollLeft / cardWidth);
+                    setActiveCard(newActiveCard);
+                  }}
+                >
                   {/* Карточка 1: Клинки */}
                   <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
                     <div className="flex items-center gap-2 mb-4">
@@ -472,6 +480,28 @@ const Index = () => {
                       </div>
                     </RadioGroup>
                   </Card>
+                </div>
+
+                {/* Индикаторы карточек */}
+                <div className="flex justify-center gap-2 pb-2">
+                  {[0, 1, 2, 3, 4].map((index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        const container = document.querySelector('.snap-x');
+                        if (container) {
+                          const cardWidth = 500 + 24;
+                          container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+                        }
+                      }}
+                      className={`h-2 rounded-full transition-all ${
+                        activeCard === index 
+                          ? 'w-8 bg-accent' 
+                          : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                      }`}
+                      aria-label={`Перейти к карточке ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
