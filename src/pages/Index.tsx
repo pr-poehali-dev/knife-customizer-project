@@ -16,6 +16,7 @@ interface ConfigOption {
 interface Config {
   blades: string[];
   finish: string;
+  body: string;
   springs: boolean;
   sheath: string;
   toolkit: boolean;
@@ -34,6 +35,7 @@ const Index = () => {
   const [config, setConfig] = useState<Config>({
     blades: [],
     finish: 'satin',
+    body: 'none',
     springs: false,
     sheath: 'none',
     toolkit: false,
@@ -52,6 +54,11 @@ const Index = () => {
     { id: 'satin', name: 'Сатин', price: 0 },
     { id: 'stonewash', name: 'Стоунвош', price: 1200 },
     { id: 'blackwash', name: 'Блеквош', price: 1500 }
+  ];
+
+  const bodyOptions = [
+    { id: 'none', name: 'Без корпуса', price: 0 },
+    { id: 'aluminum', name: 'Прочный сплав алюминия', price: 1350 }
   ];
 
   const sheathOptions = [
@@ -102,6 +109,9 @@ const Index = () => {
     
     const finish = finishOptions.find(f => f.id === config.finish);
     if (finish) total += finish.price;
+    
+    const body = bodyOptions.find(b => b.id === config.body);
+    if (body) total += body.price;
     
     if (config.springs) total += 800;
     
@@ -272,7 +282,7 @@ const Index = () => {
                   )}
                   
                   {/* Стрелка вправо */}
-                  {activeCard < 4 && (
+                  {activeCard < 5 && (
                     <button
                       onClick={() => {
                         const container = document.querySelector('.config-scroll');
@@ -356,7 +366,33 @@ const Index = () => {
                     </RadioGroup>
                   </Card>
 
-                  {/* Карточка 3: Ножны */}
+                  {/* Карточка 3: Корпус */}
+                  <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon name="Cpu" size={20} className="text-accent" />
+                      <h3 className="text-base font-semibold">Корпус</h3>
+                    </div>
+                    <RadioGroup value={config.body} onValueChange={(value) => setConfig({...config, body: value})}>
+                      <div className="space-y-2">
+                        {bodyOptions.map((body) => (
+                          <div key={body.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                            <RadioGroupItem value={body.id} id={`body-${body.id}-desktop`} />
+                            <Label 
+                              htmlFor={`body-${body.id}-desktop`}
+                              className="flex-1 flex items-center justify-between cursor-pointer"
+                            >
+                              <span>{body.name}</span>
+                              <span className="text-sm text-muted-foreground font-medium">
+                                {body.price === 0 ? '—' : `${body.price.toLocaleString('ru-RU')} ₽`}
+                              </span>
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
+                  {/* Карточка 4: Ножны */}
                   <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-3">
                       <Icon name="Package" size={20} className="text-accent" />
@@ -382,7 +418,7 @@ const Index = () => {
                     </RadioGroup>
                   </Card>
 
-                  {/* Карточка 4: Дополнительно */}
+                  {/* Карточка 5: Дополнительно */}
                   <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-3">
                       <Icon name="Plus" size={20} className="text-accent" />
@@ -434,7 +470,7 @@ const Index = () => {
                     </div>
                   </Card>
 
-                  {/* Карточка 5: Упаковка */}
+                  {/* Карточка 6: Упаковка */}
                   <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                     <div className="flex items-center gap-2 mb-3">
                       <Icon name="Gift" size={20} className="text-accent" />
@@ -463,13 +499,13 @@ const Index = () => {
 
                   {/* Индикаторы карточек */}
                   <div className="flex justify-center gap-2 flex-shrink-0">
-                    {[0, 1, 2, 3, 4].map((index) => (
+                    {[0, 1, 2, 3, 4, 5].map((index) => (
                       <button
                         key={index}
                         onClick={() => {
-                          const container = document.querySelector('.snap-x');
+                          const container = document.querySelector('.config-scroll');
                           if (container) {
-                            const cardWidth = 420 + 16;
+                            const cardWidth = container.querySelector('.snap-start')?.clientWidth || 400;
                             container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
                           }
                         }}
@@ -509,6 +545,17 @@ const Index = () => {
                         </span>
                         <span className="text-muted-foreground">
                           {finishOptions.find(f => f.id === config.finish)?.price.toLocaleString('ru-RU')} ₽
+                        </span>
+                      </div>
+                    )}
+                    
+                    {config.body !== 'none' && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">
+                          {bodyOptions.find(b => b.id === config.body)?.name}
+                        </span>
+                        <span className="text-muted-foreground">
+                          {bodyOptions.find(b => b.id === config.body)?.price.toLocaleString('ru-RU')} ₽
                         </span>
                       </div>
                     )}
@@ -630,12 +677,12 @@ const Index = () => {
                 
                 <div className="flex flex-col items-center gap-2 flex-1">
                   <h3 className="text-base font-semibold text-center">
-                    {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'][mobileActiveCard]}
+                    {['Клинки', 'Обработка', 'Корпус', 'Ножны', 'Дополнительно', 'Упаковка'][mobileActiveCard]}
                   </h3>
                   
                   {/* Индикатор этапов (точки) */}
                   <div className="flex justify-center gap-2">
-                    {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
+                    {['Клинки', 'Обработка', 'Корпус', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
                       <button
                         key={index}
                         onClick={() => {
@@ -660,7 +707,7 @@ const Index = () => {
                 <button
                   onClick={() => {
                     const container = document.querySelector('.mobile-config-scroll');
-                    if (container && mobileActiveCard < 4) {
+                    if (container && mobileActiveCard < 5) {
                       const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
                       const gap = 12;
                       container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard + 1), behavior: 'smooth' });
@@ -729,6 +776,35 @@ const Index = () => {
                               </Label>
                               <p className="text-sm text-muted-foreground">
                                 {finish.price === 0 ? 'Бесплатно' : `+${finish.price.toLocaleString()} ₽`}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
+                  {/* Карточка: Корпус */}
+                  <Card className="min-w-[85vw] snap-center p-3 bg-card border-border/40 flex flex-col">
+                    <RadioGroup value={config.body} onValueChange={(value) => setConfig(prev => ({ ...prev, body: value }))}>
+                      <div className="space-y-1.5">
+                        {bodyOptions.map(body => (
+                          <div
+                            key={body.id}
+                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
+                              config.body === body.id
+                                ? 'border-accent bg-accent/10'
+                                : 'border-border/40'
+                            }`}
+                            onClick={() => setConfig(prev => ({ ...prev, body: body.id }))}
+                          >
+                            <div className="flex items-center gap-2">
+                              <RadioGroupItem value={body.id} id={`mobile-body-${body.id}`} />
+                              <Label htmlFor={`mobile-body-${body.id}`} className="flex-1 cursor-pointer font-medium text-sm">
+                                {body.name}
+                              </Label>
+                              <p className="text-sm text-muted-foreground">
+                                {body.price === 0 ? 'Бесплатно' : `+${body.price.toLocaleString()} ₽`}
                               </p>
                             </div>
                           </div>
