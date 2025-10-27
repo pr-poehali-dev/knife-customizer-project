@@ -32,6 +32,7 @@ const Index = () => {
   const [imageKey, setImageKey] = useState(0);
   const [activeCard, setActiveCard] = useState(0);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   
   const [config, setConfig] = useState<Config>({
     blades: [],
@@ -269,6 +270,13 @@ const Index = () => {
       }
     }
   }, [config.blades, config.finish]);
+
+  useEffect(() => {
+    if (!hasInteracted && getCurrentSpecs().length > 0) {
+      setInfoOpen(true);
+      setHasInteracted(true);
+    }
+  }, [config, hasInteracted]);
 
   const calculateTotal = (): number => {
     let total = 0;
