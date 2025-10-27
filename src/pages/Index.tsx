@@ -194,180 +194,81 @@ const Index = () => {
         {activeSection === 'configurator' && (
           <>
             {/* Десктопная версия */}
-            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:h-[calc(100vh-7rem)]">
-              {/* Левая часть: Фото + Конфигурация */}
-              <div className="flex flex-col gap-3">
-                {/* Фото ножа */}
-                <Card className="p-0 overflow-hidden bg-card border-border/40 flex-1 min-h-0">
-                  <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
-                    <img 
-                      key={imageKey}
-                      src={currentImage}
-                      alt="Комплект ножа"
-                      className="w-full h-full object-cover animate-fade-in"
-                    />
-                  </div>
-                </Card>
+            <div className="hidden lg:grid lg:grid-cols-[1fr,1.2fr] lg:gap-3 lg:h-[calc(100vh-6.5rem)]">
+              {/* Левая часть: Фото ножа */}
+              <Card className="p-0 overflow-hidden bg-card border-border/40">
+                <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
+                  <img 
+                    key={imageKey}
+                    src={currentImage}
+                    alt="Комплект ножа"
+                    className="w-full h-full object-cover animate-fade-in"
+                  />
+                </div>
+              </Card>
 
-                {/* Сводка конфигурации */}
-                <Card className="p-3 bg-card border-border/40 flex flex-col max-h-[280px] overflow-y-auto">
-                  <div className="space-y-3">
-                      <div>
-                        <h3 className="text-xs font-medium text-muted-foreground mb-1">Ваша конфигурация</h3>
-                        <div className="space-y-1 text-xs">
-                          {config.blades.length > 0 ? (
-                            config.blades.map(bladeId => {
-                              const blade = bladeOptions.find(b => b.id === bladeId);
-                              return blade ? (
-                                <div key={bladeId} className="flex justify-between items-center">
-                                  <span className="text-foreground">{blade.name}</span>
-                                  <span className="text-muted-foreground">{blade.price.toLocaleString('ru-RU')} ₽</span>
-                                </div>
-                              ) : null;
-                            })
-                          ) : (
-                            <div className="text-muted-foreground/60">Клинок не выбран</div>
-                          )}
-                          
-                          {config.finish && (
-                            <div className="flex justify-between items-center">
-                              <span className="text-foreground">
-                                {finishOptions.find(f => f.id === config.finish)?.name}
-                              </span>
-                              <span className="text-muted-foreground">
-                                {finishOptions.find(f => f.id === config.finish)?.price.toLocaleString('ru-RU')} ₽
-                              </span>
-                            </div>
-                          )}
-                          
-                          {config.sheath !== 'none' && (
-                            <div className="flex justify-between items-center">
-                              <span className="text-foreground">
-                                {sheathOptions.find(s => s.id === config.sheath)?.name}
-                              </span>
-                              <span className="text-muted-foreground">
-                                {sheathOptions.find(s => s.id === config.sheath)?.price.toLocaleString('ru-RU')} ₽
-                              </span>
-                            </div>
-                          )}
-                          
-                          {config.springs && (
-                            <div className="flex justify-between items-center">
-                              <span className="text-foreground">Пружины</span>
-                              <span className="text-muted-foreground">800 ₽</span>
-                            </div>
-                          )}
-                          
-                          {config.toolkit && (
-                            <div className="flex justify-between items-center">
-                              <span className="text-foreground">Инструменты</span>
-                              <span className="text-muted-foreground">1,200 ₽</span>
-                            </div>
-                          )}
-                          
-                          {config.oilcan && (
-                            <div className="flex justify-between items-center">
-                              <span className="text-foreground">Масленка</span>
-                              <span className="text-muted-foreground">450 ₽</span>
-                            </div>
-                          )}
-                          
-                          {config.packaging && (
-                            <div className="flex justify-between items-center">
-                              <span className="text-foreground">
-                                {packagingOptions.find(p => p.id === config.packaging)?.name}
-                              </span>
-                              <span className="text-muted-foreground">
-                                {packagingOptions.find(p => p.id === config.packaging)?.price.toLocaleString('ru-RU')} ₽
-                              </span>
-                            </div>
-                          )}
-                        </div>
+              {/* Правая часть: Конфигурация + Итог */}
+              <div className="flex flex-col gap-2.5">
+                {/* Карточки конфигурации */}
+                <div className="flex-1 min-h-0 overflow-hidden flex flex-col gap-2">
+                  <div 
+                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory flex-1 pb-2" 
+                    style={{ scrollbarWidth: 'thin' }}
+                    onScroll={(e) => {
+                      const scrollLeft = e.currentTarget.scrollLeft;
+                      const cardWidth = 420 + 16;
+                      const newActiveCard = Math.round(scrollLeft / cardWidth);
+                      setActiveCard(newActiveCard);
+                    }}
+                  >
+                    {/* Карточка 1: Клинки */}
+                    <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Icon name="Sword" size={18} className="text-accent" />
+                        <h3 className="text-sm font-semibold">Клинки</h3>
                       </div>
-                      
-                    <Separator />
-                    
-                    <div className="flex items-center justify-between">
-                      <span className="text-base font-semibold">Итого:</span>
-                      <span className="text-xl font-bold text-primary">
-                        {calculateTotal().toLocaleString('ru-RU')} ₽
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2 mt-3">
-                    <Button 
-                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-4 text-base font-semibold"
-                      disabled={config.blades.length === 0}
-                    >
-                      <Icon name="Rocket" size={18} className="mr-2" />
-                      Запустить в изготовление
-                    </Button>
-                    
-                    {config.blades.length === 0 && (
-                      <p className="text-xs text-muted-foreground text-center">
-                        Выберите хотя бы один клинок для оформления заказа
-                      </p>
-                    )}
-                  </div>
-                </Card>
-              </div>
+                      <div className="space-y-1.5">
+                        {bladeOptions.map((blade) => (
+                          <div key={blade.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
+                            <Checkbox
+                              id={`blade-${blade.id}-desktop`}
+                              checked={config.blades.includes(blade.id)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setConfig({ ...config, blades: [...config.blades, blade.id] });
+                                } else {
+                                  setConfig({ ...config, blades: config.blades.filter(id => id !== blade.id) });
+                                }
+                              }}
+                            />
+                            <Label htmlFor={`blade-${blade.id}-desktop`} className="flex-1 cursor-pointer">
+                              <div className="flex justify-between items-center">
+                                <span className="text-sm font-medium">{blade.name}</span>
+                                <span className="text-xs text-muted-foreground">{blade.price.toLocaleString('ru-RU')} ₽</span>
+                              </div>
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
 
-              {/* Правая часть: Горизонтальный скролл карточек настроек */}
-              <div className="overflow-hidden flex flex-col gap-3">
-                <div 
-                  className="flex gap-6 overflow-x-auto snap-x snap-mandatory flex-1 pb-2 min-h-0" 
-                  style={{ scrollbarWidth: 'thin' }}
-                  onScroll={(e) => {
-                    const scrollLeft = e.currentTarget.scrollLeft;
-                    const cardWidth = 500 + 24;
-                    const newActiveCard = Math.round(scrollLeft / cardWidth);
-                    setActiveCard(newActiveCard);
-                  }}
-                >
-                  {/* Карточка 1: Клинки */}
-                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Sword" className="text-accent" />
-                      <h3 className="text-base font-semibold">Клинки</h3>
-                    </div>
-                    <div className="space-y-2">
-                      {bladeOptions.map((blade) => (
-                        <div key={blade.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
-                          <Checkbox
-                            id={`blade-${blade.id}-desktop`}
-                            checked={config.blades.includes(blade.id)}
-                            onCheckedChange={() => toggleBlade(blade.id)}
-                          />
-                          <Label 
-                            htmlFor={`blade-${blade.id}-desktop`}
-                            className="flex-1 flex items-center justify-between cursor-pointer"
-                          >
-                            <span>{blade.name}</span>
-                            <span className="text-muted-foreground font-medium">{blade.price.toLocaleString('ru-RU')} ₽</span>
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </Card>
-
-                  {/* Карточка 2: Обработка */}
-                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Sparkles" className="text-accent" />
-                      <h3 className="text-base font-semibold">Обработка</h3>
+                    {/* Карточка 2: Обработка */}
+                    <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon name="Sparkles" size={18} className="text-accent" />
+                      <h3 className="text-sm font-semibold">Обработка</h3>
                     </div>
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig({...config, finish: value})}>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {finishOptions.map((finish) => (
-                          <div key={finish.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={finish.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={finish.id} id={`finish-${finish.id}-desktop`} />
                             <Label 
                               htmlFor={`finish-${finish.id}-desktop`}
                               className="flex-1 flex items-center justify-between cursor-pointer"
                             >
-                              <span>{finish.name}</span>
-                              <span className="text-muted-foreground font-medium">
+                              <span className="text-sm">{finish.name}</span>
+                              <span className="text-xs text-muted-foreground font-medium">
                                 {finish.price === 0 ? 'Включено' : `${finish.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
@@ -378,22 +279,22 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 3: Ножны */}
-                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Package" className="text-accent" />
-                      <h3 className="text-base font-semibold">Ножны</h3>
+                  <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon name="Package" size={18} className="text-accent" />
+                      <h3 className="text-sm font-semibold">Ножны</h3>
                     </div>
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig({...config, sheath: value})}>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {sheathOptions.map((sheath) => (
-                          <div key={sheath.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={sheath.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={sheath.id} id={`sheath-${sheath.id}-desktop`} />
                             <Label 
                               htmlFor={`sheath-${sheath.id}-desktop`}
                               className="flex-1 flex items-center justify-between cursor-pointer"
                             >
-                              <span>{sheath.name}</span>
-                              <span className="text-muted-foreground font-medium">
+                              <span className="text-sm">{sheath.name}</span>
+                              <span className="text-xs text-muted-foreground font-medium">
                                 {sheath.price === 0 ? '—' : `${sheath.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
@@ -404,13 +305,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 4: Дополнительно */}
-                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Plus" className="text-accent" />
-                      <h3 className="text-base font-semibold">Дополнительно</h3>
+                  <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon name="Plus" size={18} className="text-accent" />
+                      <h3 className="text-sm font-semibold">Дополнительно</h3>
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                         <Checkbox
                           id="springs-desktop"
                           checked={config.springs}
@@ -420,11 +321,11 @@ const Index = () => {
                           htmlFor="springs-desktop"
                           className="flex-1 flex items-center justify-between cursor-pointer"
                         >
-                          <span>Пружины</span>
-                          <span className="text-muted-foreground font-medium">800 ₽</span>
+                          <span className="text-sm">Пружины</span>
+                          <span className="text-xs text-muted-foreground font-medium">800 ₽</span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                      <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                         <Checkbox
                           id="toolkit-desktop"
                           checked={config.toolkit}
@@ -434,11 +335,11 @@ const Index = () => {
                           htmlFor="toolkit-desktop"
                           className="flex-1 flex items-center justify-between cursor-pointer"
                         >
-                          <span>Инструменты</span>
-                          <span className="text-muted-foreground font-medium">1,200 ₽</span>
+                          <span className="text-sm">Инструменты</span>
+                          <span className="text-xs text-muted-foreground font-medium">1,200 ₽</span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                      <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                         <Checkbox
                           id="oilcan-desktop"
                           checked={config.oilcan}
@@ -448,30 +349,30 @@ const Index = () => {
                           htmlFor="oilcan-desktop"
                           className="flex-1 flex items-center justify-between cursor-pointer"
                         >
-                          <span>Масленка</span>
-                          <span className="text-muted-foreground font-medium">450 ₽</span>
+                          <span className="text-sm">Масленка</span>
+                          <span className="text-xs text-muted-foreground font-medium">450 ₽</span>
                         </Label>
                       </div>
                     </div>
                   </Card>
 
                   {/* Карточка 5: Упаковка */}
-                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Gift" className="text-accent" />
-                      <h3 className="text-base font-semibold">Упаковка</h3>
+                  <Card className="min-w-[420px] snap-start p-3 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Icon name="Gift" size={18} className="text-accent" />
+                      <h3 className="text-sm font-semibold">Упаковка</h3>
                     </div>
                     <RadioGroup value={config.packaging} onValueChange={(value) => setConfig({...config, packaging: value})}>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {packagingOptions.map((pkg) => (
-                          <div key={pkg.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={pkg.id} className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={pkg.id} id={`pkg-${pkg.id}-desktop`} />
                             <Label 
                               htmlFor={`pkg-${pkg.id}-desktop`}
                               className="flex-1 flex items-center justify-between cursor-pointer"
                             >
-                              <span>{pkg.name}</span>
-                              <span className="text-muted-foreground font-medium">
+                              <span className="text-sm">{pkg.name}</span>
+                              <span className="text-xs text-muted-foreground font-medium">
                                 {pkg.price === 0 ? 'Включено' : `${pkg.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
@@ -482,27 +383,125 @@ const Index = () => {
                   </Card>
                 </div>
 
-                {/* Индикаторы карточек */}
-                <div className="flex justify-center gap-2">
-                  {[0, 1, 2, 3, 4].map((index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        const container = document.querySelector('.snap-x');
-                        if (container) {
-                          const cardWidth = 500 + 24;
-                          container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
-                        }
-                      }}
-                      className={`h-1.5 rounded-full transition-all ${
-                        activeCard === index 
-                          ? 'w-6 bg-accent' 
-                          : 'w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                      }`}
-                      aria-label={`Перейти к карточке ${index + 1}`}
-                    />
-                  ))}
+                  {/* Индикаторы карточек */}
+                  <div className="flex justify-center gap-2">
+                    {[0, 1, 2, 3, 4].map((index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          const container = document.querySelector('.snap-x');
+                          if (container) {
+                            const cardWidth = 420 + 16;
+                            container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
+                          }
+                        }}
+                        className={`h-1.5 rounded-full transition-all ${
+                          activeCard === index 
+                            ? 'w-6 bg-accent' 
+                            : 'w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                        }`}
+                        aria-label={`Перейти к карточке ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
+
+                {/* Итоговая конфигурация */}
+                <Card className="p-3 bg-card border-border/40 max-h-[180px] overflow-y-auto">
+                  <h3 className="text-xs font-medium text-muted-foreground mb-1.5">Ваша конфигурация</h3>
+                  <div className="space-y-1 text-xs mb-2">
+                    {config.blades.length > 0 ? (
+                      config.blades.map(bladeId => {
+                        const blade = bladeOptions.find(b => b.id === bladeId);
+                        return blade ? (
+                          <div key={bladeId} className="flex justify-between items-center">
+                            <span className="text-foreground">{blade.name}</span>
+                            <span className="text-muted-foreground">{blade.price.toLocaleString('ru-RU')} ₽</span>
+                          </div>
+                        ) : null;
+                      })
+                    ) : (
+                      <div className="text-muted-foreground/60">Клинок не выбран</div>
+                    )}
+                    
+                    {config.finish && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">
+                          {finishOptions.find(f => f.id === config.finish)?.name}
+                        </span>
+                        <span className="text-muted-foreground">
+                          {finishOptions.find(f => f.id === config.finish)?.price.toLocaleString('ru-RU')} ₽
+                        </span>
+                      </div>
+                    )}
+                    
+                    {config.sheath !== 'none' && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">
+                          {sheathOptions.find(s => s.id === config.sheath)?.name}
+                        </span>
+                        <span className="text-muted-foreground">
+                          {sheathOptions.find(s => s.id === config.sheath)?.price.toLocaleString('ru-RU')} ₽
+                        </span>
+                      </div>
+                    )}
+                    
+                    {config.springs && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">Пружины</span>
+                        <span className="text-muted-foreground">800 ₽</span>
+                      </div>
+                    )}
+                    
+                    {config.toolkit && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">Инструменты</span>
+                        <span className="text-muted-foreground">1,200 ₽</span>
+                      </div>
+                    )}
+                    
+                    {config.oilcan && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">Масленка</span>
+                        <span className="text-muted-foreground">450 ₽</span>
+                      </div>
+                    )}
+                    
+                    {config.packaging && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground">
+                          {packagingOptions.find(p => p.id === config.packaging)?.name}
+                        </span>
+                        <span className="text-muted-foreground">
+                          {packagingOptions.find(p => p.id === config.packaging)?.price.toLocaleString('ru-RU')} ₽
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <Separator className="my-1.5" />
+                  
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold">Итого:</span>
+                    <span className="text-base font-bold text-primary">
+                      {calculateTotal().toLocaleString('ru-RU')} ₽
+                    </span>
+                  </div>
+                  
+                  <Button 
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-2 text-xs font-semibold"
+                    disabled={config.blades.length === 0}
+                  >
+                    <Icon name="Rocket" size={14} className="mr-1.5" />
+                    Запустить в изготовление
+                  </Button>
+                  
+                  {config.blades.length === 0 && (
+                    <p className="text-[10px] text-muted-foreground text-center mt-1.5">
+                      Выберите хотя бы один клинок
+                    </p>
+                  )}
+                </Card>
               </div>
             </div>
 
