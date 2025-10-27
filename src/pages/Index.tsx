@@ -154,7 +154,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/95">
-        <div className="container mx-auto px-4 py-4 lg:py-6">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl lg:text-3xl font-bold tracking-tight flex items-center gap-2 lg:gap-3">
               <Icon name="Sword" size={28} className="text-accent lg:w-8 lg:h-8" />
@@ -190,13 +190,13 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-4 lg:py-12">
+      <main className="container mx-auto px-4 py-3 lg:py-4">
         {activeSection === 'configurator' && (
           <>
             {/* Десктопная версия */}
-            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6 lg:h-[calc(100vh-10rem)] lg:max-h-[900px]">
+            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4 lg:h-[calc(100vh-7rem)]">
               {/* Левая часть: Фото + Конфигурация */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3">
                 {/* Фото ножа */}
                 <Card className="p-0 overflow-hidden bg-card border-border/40 flex-1 min-h-0">
                   <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
@@ -210,11 +210,11 @@ const Index = () => {
                 </Card>
 
                 {/* Сводка конфигурации */}
-                <Card className="p-4 bg-card border-border/40 flex flex-col max-h-[340px] overflow-y-auto">
+                <Card className="p-3 bg-card border-border/40 flex flex-col max-h-[280px] overflow-y-auto">
                   <div className="space-y-3">
                       <div>
-                        <h3 className="text-sm font-medium text-muted-foreground mb-2">Ваша конфигурация</h3>
-                        <div className="space-y-2 text-sm">
+                        <h3 className="text-xs font-medium text-muted-foreground mb-1">Ваша конфигурация</h3>
+                        <div className="space-y-1 text-xs">
                           {config.blades.length > 0 ? (
                             config.blades.map(bladeId => {
                               const blade = bladeOptions.find(b => b.id === bladeId);
@@ -288,19 +288,19 @@ const Index = () => {
                     <Separator />
                     
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-semibold">Итого:</span>
-                      <span className="text-2xl font-bold text-primary">
+                      <span className="text-base font-semibold">Итого:</span>
+                      <span className="text-xl font-bold text-primary">
                         {calculateTotal().toLocaleString('ru-RU')} ₽
                       </span>
                     </div>
                   </div>
                   
-                  <div className="space-y-3 mt-4">
+                  <div className="space-y-2 mt-3">
                     <Button 
-                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-5 text-lg font-semibold"
+                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-4 text-base font-semibold"
                       disabled={config.blades.length === 0}
                     >
-                      <Icon name="Rocket" size={20} className="mr-2" />
+                      <Icon name="Rocket" size={18} className="mr-2" />
                       Запустить в изготовление
                     </Button>
                     
@@ -314,7 +314,7 @@ const Index = () => {
               </div>
 
               {/* Правая часть: Горизонтальный скролл карточек настроек */}
-              <div className="overflow-hidden flex flex-col gap-4">
+              <div className="overflow-hidden flex flex-col gap-3">
                 <div 
                   className="flex gap-6 overflow-x-auto snap-x snap-mandatory flex-1 pb-2 min-h-0" 
                   style={{ scrollbarWidth: 'thin' }}
@@ -326,14 +326,14 @@ const Index = () => {
                   }}
                 >
                   {/* Карточка 1: Клинки */}
-                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-4">
+                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-3">
                       <Icon name="Sword" className="text-accent" />
-                      <h3 className="text-lg font-semibold">Клинки</h3>
+                      <h3 className="text-base font-semibold">Клинки</h3>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {bladeOptions.map((blade) => (
-                        <div key={blade.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
+                        <div key={blade.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                           <Checkbox
                             id={`blade-${blade.id}-desktop`}
                             checked={config.blades.includes(blade.id)}
@@ -352,13 +352,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 2: Обработка */}
-                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-4">
+                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-3">
                       <Icon name="Sparkles" className="text-accent" />
-                      <h3 className="text-lg font-semibold">Обработка</h3>
+                      <h3 className="text-base font-semibold">Обработка</h3>
                     </div>
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig({...config, finish: value})}>
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         {finishOptions.map((finish) => (
                           <div key={finish.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={finish.id} id={`finish-${finish.id}-desktop`} />
@@ -378,13 +378,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 3: Ножны */}
-                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-4">
+                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-3">
                       <Icon name="Package" className="text-accent" />
-                      <h3 className="text-lg font-semibold">Ножны</h3>
+                      <h3 className="text-base font-semibold">Ножны</h3>
                     </div>
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig({...config, sheath: value})}>
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         {sheathOptions.map((sheath) => (
                           <div key={sheath.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={sheath.id} id={`sheath-${sheath.id}-desktop`} />
@@ -404,12 +404,12 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 4: Дополнительно */}
-                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-4">
+                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-3">
                       <Icon name="Plus" className="text-accent" />
-                      <h3 className="text-lg font-semibold">Дополнительно</h3>
+                      <h3 className="text-base font-semibold">Дополнительно</h3>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
                         <Checkbox
                           id="springs-desktop"
@@ -456,13 +456,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 5: Упаковка */}
-                  <Card className="min-w-[500px] snap-start p-6 bg-card border-border/40 flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-4">
+                  <Card className="min-w-[500px] snap-start p-4 bg-card border-border/40 flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-3">
                       <Icon name="Gift" className="text-accent" />
-                      <h3 className="text-lg font-semibold">Упаковка</h3>
+                      <h3 className="text-base font-semibold">Упаковка</h3>
                     </div>
                     <RadioGroup value={config.packaging} onValueChange={(value) => setConfig({...config, packaging: value})}>
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         {packagingOptions.map((pkg) => (
                           <div key={pkg.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={pkg.id} id={`pkg-${pkg.id}-desktop`} />
@@ -483,7 +483,7 @@ const Index = () => {
                 </div>
 
                 {/* Индикаторы карточек */}
-                <div className="flex justify-center gap-2 pb-2">
+                <div className="flex justify-center gap-2">
                   {[0, 1, 2, 3, 4].map((index) => (
                     <button
                       key={index}
@@ -494,10 +494,10 @@ const Index = () => {
                           container.scrollTo({ left: cardWidth * index, behavior: 'smooth' });
                         }
                       }}
-                      className={`h-2 rounded-full transition-all ${
+                      className={`h-1.5 rounded-full transition-all ${
                         activeCard === index 
-                          ? 'w-8 bg-accent' 
-                          : 'w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                          ? 'w-6 bg-accent' 
+                          : 'w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
                       }`}
                       aria-label={`Перейти к карточке ${index + 1}`}
                     />
