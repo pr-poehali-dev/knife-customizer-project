@@ -221,7 +221,7 @@ const Index = () => {
                           container.scrollTo({ left: (activeCard - 1) * cardWidth, behavior: 'smooth' });
                         }
                       }}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-accent/90 hover:bg-accent text-accent-foreground rounded-full p-2 shadow-lg transition-all"
+                      className="absolute left-2 bottom-4 z-10 bg-accent/90 hover:bg-accent text-accent-foreground rounded-full p-2 shadow-lg transition-all"
                       aria-label="Предыдущая карточка"
                     >
                       <Icon name="ChevronLeft" size={20} />
@@ -238,7 +238,7 @@ const Index = () => {
                           container.scrollTo({ left: (activeCard + 1) * cardWidth, behavior: 'smooth' });
                         }
                       }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-accent/90 hover:bg-accent text-accent-foreground rounded-full p-2 shadow-lg transition-all"
+                      className="absolute right-2 bottom-4 z-10 bg-accent/90 hover:bg-accent text-accent-foreground rounded-full p-2 shadow-lg transition-all"
                       aria-label="Следующая карточка"
                     >
                       <Icon name="ChevronRight" size={20} />
