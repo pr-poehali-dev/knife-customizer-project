@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
+import BladeShapes from '@/components/BladeShapes';
 
 interface ConfigOption {
   id: string;
@@ -37,10 +38,10 @@ const Index = () => {
   });
 
   const bladeOptions: ConfigOption[] = [
-    { id: 'tanto', name: 'Tanto', price: 8500 },
-    { id: 'drop-point', name: 'Drop Point', price: 7800 },
-    { id: 'spear-point', name: 'Spear Point', price: 8200 },
-    { id: 'dagger', name: 'Dagger', price: 9500 }
+    { id: 'tanto', name: 'Танто', price: 8500 },
+    { id: 'finnish', name: 'Финский', price: 7800 },
+    { id: 'dagger', name: 'Кортик', price: 9500 },
+    { id: 'standard', name: 'Стандарт', price: 8200 }
   ];
 
   const finishOptions = [
@@ -171,6 +172,24 @@ const Index = () => {
                 </p>
               </div>
 
+              <Card className="p-0 overflow-hidden bg-card border-border/40">
+                <div className="relative aspect-video bg-gradient-to-br from-muted/50 to-background">
+                  <img 
+                    src="https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg"
+                    alt="Комплект ножа"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-6">
+                    <p className="text-sm text-muted-foreground">
+                      {config.blades.length > 0 
+                        ? `Выбрано клинков: ${config.blades.length} • ${finishOptions.find(f => f.id === config.finish)?.name}`
+                        : 'Выберите клинки для начала конфигурации'
+                      }
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
               <Card className="p-6 space-y-6 bg-card border-border/40">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
@@ -189,14 +208,19 @@ const Index = () => {
                             : 'border-border/40 hover:border-border'
                         }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <Checkbox
-                            checked={config.blades.includes(blade.id)}
-                            onCheckedChange={() => toggleBlade(blade.id)}
-                          />
-                          <div className="flex-1">
-                            <p className="font-medium">{blade.name}</p>
-                            <p className="text-sm text-muted-foreground">+{blade.price.toLocaleString()} ₽</p>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-center opacity-60">
+                            {BladeShapes[blade.id as keyof typeof BladeShapes]}
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Checkbox
+                              checked={config.blades.includes(blade.id)}
+                              onCheckedChange={() => toggleBlade(blade.id)}
+                            />
+                            <div className="flex-1">
+                              <p className="font-medium">{blade.name}</p>
+                              <p className="text-sm text-muted-foreground">+{blade.price.toLocaleString()} ₽</p>
+                            </div>
                           </div>
                         </div>
                       </div>
