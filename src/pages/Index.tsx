@@ -200,25 +200,6 @@ const Index = () => {
                 </p>
               </div>
 
-              <Card className="p-0 overflow-hidden bg-card border-border/40">
-                <div className="relative aspect-video bg-gradient-to-br from-muted/50 to-background">
-                  <img 
-                    key={imageKey}
-                    src={currentImage}
-                    alt="Комплект ножа"
-                    className="w-full h-full object-cover animate-fade-in"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-6">
-                    <p className="text-sm text-muted-foreground">
-                      {config.blades.length > 0 
-                        ? `Выбрано клинков: ${config.blades.length} • ${finishOptions.find(f => f.id === config.finish)?.name}`
-                        : 'Выберите клинки для начала конфигурации'
-                      }
-                    </p>
-                  </div>
-                </div>
-              </Card>
-
               <Card className="p-6 space-y-6 bg-card border-border/40">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
@@ -421,14 +402,34 @@ const Index = () => {
             </div>
 
             <div className="lg:col-span-1">
-              <Card className="p-6 sticky top-24 bg-card border-border/40">
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">Ваша конфигурация</h3>
-                    <p className="text-sm text-muted-foreground">Итоговая стоимость</p>
+              <div className="sticky top-24 space-y-6">
+                <Card className="p-0 overflow-hidden bg-card border-border/40">
+                  <div className="relative aspect-video bg-gradient-to-br from-muted/50 to-background">
+                    <img 
+                      key={imageKey}
+                      src={currentImage}
+                      alt="Комплект ножа"
+                      className="w-full h-full object-cover animate-fade-in"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-4">
+                      <p className="text-xs text-muted-foreground">
+                        {config.blades.length > 0 
+                          ? `Выбрано клинков: ${config.blades.length} • ${finishOptions.find(f => f.id === config.finish)?.name}`
+                          : 'Выберите клинки для начала конфигурации'
+                        }
+                      </p>
+                    </div>
                   </div>
+                </Card>
 
-                  <Separator className="bg-border/40" />
+                <Card className="p-6 bg-card border-border/40">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">Ваша конфигурация</h3>
+                      <p className="text-sm text-muted-foreground">Итоговая стоимость</p>
+                    </div>
+
+                    <Separator className="bg-border/40" />
 
                   <div className="space-y-3 text-sm">
                     {config.blades.length > 0 && (
@@ -510,8 +511,9 @@ const Index = () => {
                       </p>
                     )}
                   </div>
-                </div>
-              </Card>
+                  </div>
+                </Card>
+              </div>
             </div>
           </div>
         )}
