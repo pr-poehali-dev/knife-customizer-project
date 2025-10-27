@@ -31,6 +31,7 @@ const Index = () => {
   const [currentImage, setCurrentImage] = useState('https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg');
   const [imageKey, setImageKey] = useState(0);
   const [activeCard, setActiveCard] = useState(0);
+  const [infoOpen, setInfoOpen] = useState(false);
   
   const [config, setConfig] = useState<Config>({
     blades: [],
@@ -71,6 +72,176 @@ const Index = () => {
     { id: 'bag', name: 'Пакет', price: 0 },
     { id: 'wooden-box', name: 'Деревянный футляр', price: 1550 }
   ];
+
+  const specificationsData: Record<string, { title: string; specs: string[] }> = {
+    'tanto': {
+      title: 'Танто',
+      specs: [
+        'Длина клинка: 95 мм',
+        'Толщина обуха: 3.5 мм',
+        'Сталь: 440C',
+        'Твёрдость: 58-60 HRC',
+        'Острый угол заточки',
+        'Идеален для точных работ'
+      ]
+    },
+    'finnish': {
+      title: 'Финский',
+      specs: [
+        'Длина клинка: 105 мм',
+        'Толщина обуха: 4.0 мм',
+        'Сталь: 440C',
+        'Твёрдость: 58-60 HRC',
+        'Классическая форма',
+        'Универсальное применение'
+      ]
+    },
+    'dagger': {
+      title: 'Кортик',
+      specs: [
+        'Длина клинка: 110 мм',
+        'Толщина обуха: 3.8 мм',
+        'Сталь: 440C',
+        'Твёрдость: 58-60 HRC',
+        'Двусторонняя заточка',
+        'Элегантный дизайн'
+      ]
+    },
+    'standard': {
+      title: 'Стандарт',
+      specs: [
+        'Длина клинка: 100 мм',
+        'Толщина обуха: 3.5 мм',
+        'Сталь: 440C',
+        'Твёрдость: 58-60 HRC',
+        'Универсальная форма',
+        'Оптимальный баланс'
+      ]
+    },
+    'satin': {
+      title: 'Сатин',
+      specs: [
+        'Матовая полировка',
+        'Устойчивость к царапинам',
+        'Классический вид',
+        'Легкий уход',
+        'Базовая обработка'
+      ]
+    },
+    'stonewash': {
+      title: 'Стоунвош',
+      specs: [
+        'Текстурированная поверхность',
+        'Скрывает следы использования',
+        'Улучшенная коррозионная стойкость',
+        'Тактильная текстура',
+        'Премиальный вид'
+      ]
+    },
+    'blackwash': {
+      title: 'Блеквош',
+      specs: [
+        'Чёрное покрытие',
+        'Максимальная стойкость',
+        'Агрессивный дизайн',
+        'Антибликовое покрытие',
+        'Премиум обработка'
+      ]
+    },
+    'none-body': {
+      title: 'Без корпуса',
+      specs: [
+        'Минималистичный дизайн',
+        'Лёгкий вес',
+        'Компактные размеры',
+        'Базовая комплектация'
+      ]
+    },
+    'aluminum': {
+      title: 'Прочный сплав алюминия',
+      specs: [
+        'Авиационный алюминий 6061-T6',
+        'Анодированное покрытие',
+        'Вес корпуса: 45 г',
+        'Защита от ударов',
+        'Эргономичная форма'
+      ]
+    },
+    'none-sheath': {
+      title: 'Без ножен',
+      specs: [
+        'Компактная переноска',
+        'Минимальный вес',
+        'Базовая комплектация'
+      ]
+    },
+    'kydex': {
+      title: 'Кайдекс',
+      specs: [
+        'Термопластичный полимер',
+        'Влагостойкий материал',
+        'Фиксация с щелчком',
+        'Крепление на пояс',
+        'Долговечность 10+ лет'
+      ]
+    },
+    'leather': {
+      title: 'Кожа',
+      specs: [
+        'Натуральная воловья кожа',
+        'Ручная прошивка',
+        'Классический вид',
+        'Формуется под нож',
+        'Премиальное исполнение'
+      ]
+    },
+    'bag': {
+      title: 'Пакет',
+      specs: [
+        'Плотный полиэтилен',
+        'Базовая упаковка',
+        'Защита при транспортировке'
+      ]
+    },
+    'wooden-box': {
+      title: 'Деревянный футляр',
+      specs: [
+        'Массив дуба',
+        'Бархатная подложка',
+        'Гравировка логотипа',
+        'Подарочное оформление',
+        'Защита при хранении'
+      ]
+    },
+    'springs': {
+      title: 'Дополнительные пружины',
+      specs: [
+        'Комплект из 3 пружин',
+        'Различная жёсткость',
+        'Нержавеющая сталь',
+        'Гарантия 1 год'
+      ]
+    },
+    'toolkit': {
+      title: 'Набор инструментов',
+      specs: [
+        'Отвёртка Torx T6, T8',
+        'Шестигранник 2-5 мм',
+        'Масло для смазки',
+        'Салфетка из микрофибры',
+        'Компактный чехол'
+      ]
+    },
+    'oilcan': {
+      title: 'Масленка',
+      specs: [
+        'Объём: 10 мл',
+        'Синтетическое масло',
+        'Точный дозатор',
+        'Защита от коррозии'
+      ]
+    }
+  };
 
   const knifeImages: Record<string, string> = {
     'tanto-satin': 'https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/fc6745f0-61fe-483b-90ad-a32b7f7bc0c3.jpg',
@@ -134,6 +305,48 @@ const Index = () => {
         ? prev.blades.filter(id => id !== bladeId)
         : [...prev.blades, bladeId]
     }));
+  };
+
+  const getCurrentSpecs = () => {
+    const specs: Array<{ title: string; specs: string[] }> = [];
+    
+    config.blades.forEach(bladeId => {
+      if (specificationsData[bladeId]) {
+        specs.push(specificationsData[bladeId]);
+      }
+    });
+    
+    if (specificationsData[config.finish]) {
+      specs.push(specificationsData[config.finish]);
+    }
+    
+    const bodyKey = config.body === 'none' ? 'none-body' : config.body;
+    if (specificationsData[bodyKey]) {
+      specs.push(specificationsData[bodyKey]);
+    }
+    
+    const sheathKey = config.sheath === 'none' ? 'none-sheath' : config.sheath;
+    if (specificationsData[sheathKey]) {
+      specs.push(specificationsData[sheathKey]);
+    }
+    
+    if (config.springs && specificationsData['springs']) {
+      specs.push(specificationsData['springs']);
+    }
+    
+    if (config.toolkit && specificationsData['toolkit']) {
+      specs.push(specificationsData['toolkit']);
+    }
+    
+    if (config.oilcan && specificationsData['oilcan']) {
+      specs.push(specificationsData['oilcan']);
+    }
+    
+    if (specificationsData[config.packaging]) {
+      specs.push(specificationsData[config.packaging]);
+    }
+    
+    return specs;
   };
 
   const galleryItems = [
@@ -257,6 +470,46 @@ const Index = () => {
                     alt="Комплект ножа"
                     className="w-full h-full object-cover animate-fade-in"
                   />
+                  
+                  {/* Иконка информации */}
+                  <button
+                    onClick={() => setInfoOpen(!infoOpen)}
+                    className="absolute top-4 left-4 bg-background/80 hover:bg-background/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg transition-all z-20"
+                    aria-label="Информация о конфигурации"
+                  >
+                    <Icon name="Info" size={20} className="text-foreground" />
+                  </button>
+                  
+                  {/* Информационное окно */}
+                  {infoOpen && getCurrentSpecs().length > 0 && (
+                    <div className="absolute top-4 left-4 w-[40%] max-h-[60%] bg-background/95 backdrop-blur-md rounded-xl shadow-2xl border border-border/40 overflow-hidden z-30">
+                      <div className="flex items-center justify-between p-3 border-b border-border/40">
+                        <h3 className="font-semibold text-sm">Характеристики</h3>
+                        <button
+                          onClick={() => setInfoOpen(false)}
+                          className="hover:bg-muted/50 rounded-full p-1 transition-colors"
+                          aria-label="Закрыть"
+                        >
+                          <Icon name="X" size={16} />
+                        </button>
+                      </div>
+                      <div className="overflow-y-auto max-h-[calc(60vh-4rem)] p-3 space-y-3">
+                        {getCurrentSpecs().map((spec, index) => (
+                          <div key={index} className="space-y-1.5">
+                            <h4 className="font-semibold text-xs text-accent">{spec.title}</h4>
+                            <ul className="space-y-1">
+                              {spec.specs.map((item, i) => (
+                                <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                                  <Icon name="Check" size={14} className="text-accent mt-0.5 flex-shrink-0" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </Card>
 
@@ -643,6 +896,47 @@ const Index = () => {
                     alt="Комплект ножа"
                     className="w-full h-full object-cover animate-fade-in"
                   />
+                  
+                  {/* Иконка информации */}
+                  <button
+                    onClick={() => setInfoOpen(!infoOpen)}
+                    className="absolute top-3 left-3 bg-background/80 hover:bg-background/90 backdrop-blur-sm rounded-full p-2 shadow-lg transition-all z-20"
+                    aria-label="Информация о конфигурации"
+                  >
+                    <Icon name="Info" size={18} className="text-foreground" />
+                  </button>
+                  
+                  {/* Информационное окно */}
+                  {infoOpen && getCurrentSpecs().length > 0 && (
+                    <div className="absolute top-3 left-3 w-[85%] max-h-[70%] bg-background/95 backdrop-blur-md rounded-xl shadow-2xl border border-border/40 overflow-hidden z-30">
+                      <div className="flex items-center justify-between p-2.5 border-b border-border/40">
+                        <h3 className="font-semibold text-xs">Характеристики</h3>
+                        <button
+                          onClick={() => setInfoOpen(false)}
+                          className="hover:bg-muted/50 rounded-full p-1 transition-colors"
+                          aria-label="Закрыть"
+                        >
+                          <Icon name="X" size={14} />
+                        </button>
+                      </div>
+                      <div className="overflow-y-auto max-h-[calc(70vh-3rem)] p-2.5 space-y-2.5">
+                        {getCurrentSpecs().map((spec, index) => (
+                          <div key={index} className="space-y-1">
+                            <h4 className="font-semibold text-xs text-accent">{spec.title}</h4>
+                            <ul className="space-y-0.5">
+                              {spec.specs.map((item, i) => (
+                                <li key={i} className="text-[11px] text-muted-foreground flex items-start gap-1.5">
+                                  <Icon name="Check" size={12} className="text-accent mt-0.5 flex-shrink-0" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 to-transparent p-3">
                     <p className="text-xs text-muted-foreground">
                       {config.blades.length > 0 
