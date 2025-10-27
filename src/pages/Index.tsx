@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -6,7 +6,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
-import BladeShapes from '@/components/BladeShapes';
 
 interface ConfigOption {
   id: string;
@@ -26,6 +25,8 @@ interface Config {
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<'configurator' | 'gallery' | 'about'>('configurator');
+  const [currentImage, setCurrentImage] = useState('https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg');
+  const [imageKey, setImageKey] = useState(0);
   
   const [config, setConfig] = useState<Config>({
     blades: [],
@@ -60,6 +61,33 @@ const Index = () => {
     { id: 'bag', name: 'Пакет', price: 0 },
     { id: 'wooden-box', name: 'Деревянный футляр', price: 4500 }
   ];
+
+  const knifeImages: Record<string, string> = {
+    'tanto-satin': 'https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/fc6745f0-61fe-483b-90ad-a32b7f7bc0c3.jpg',
+    'tanto-blackwash': 'https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/66e0c02f-2c92-45fb-970c-b8cdbb27d962.jpg',
+    'finnish-stonewash': 'https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/1df3ceaa-6581-4a1b-9056-7de4914d831b.jpg',
+    'standard-satin': 'https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/cdeaf906-9a25-4202-905d-deaf64047ae7.jpg',
+    'default': 'https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg'
+  };
+
+  useEffect(() => {
+    if (config.blades.length > 0) {
+      const blade = config.blades[0];
+      const finish = config.finish;
+      const key = `${blade}-${finish}`;
+      const newImage = knifeImages[key] || knifeImages['default'];
+      
+      if (newImage !== currentImage) {
+        setCurrentImage(newImage);
+        setImageKey(prev => prev + 1);
+      }
+    } else {
+      if (currentImage !== knifeImages['default']) {
+        setCurrentImage(knifeImages['default']);
+        setImageKey(prev => prev + 1);
+      }
+    }
+  }, [config.blades, config.finish]);
 
   const calculateTotal = (): number => {
     let total = 0;
@@ -175,9 +203,10 @@ const Index = () => {
               <Card className="p-0 overflow-hidden bg-card border-border/40">
                 <div className="relative aspect-video bg-gradient-to-br from-muted/50 to-background">
                   <img 
-                    src="https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg"
+                    key={imageKey}
+                    src={currentImage}
                     alt="Комплект ножа"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover animate-fade-in"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-6">
                     <p className="text-sm text-muted-foreground">
@@ -208,19 +237,14 @@ const Index = () => {
                             : 'border-border/40 hover:border-border'
                         }`}
                       >
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-center opacity-60">
-                            {BladeShapes[blade.id as keyof typeof BladeShapes]}
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <Checkbox
-                              checked={config.blades.includes(blade.id)}
-                              onCheckedChange={() => toggleBlade(blade.id)}
-                            />
-                            <div className="flex-1">
-                              <p className="font-medium">{blade.name}</p>
-                              <p className="text-sm text-muted-foreground">+{blade.price.toLocaleString()} ₽</p>
-                            </div>
+                        <div className="flex items-center gap-3">
+                          <Checkbox
+                            checked={config.blades.includes(blade.id)}
+                            onCheckedChange={() => toggleBlade(blade.id)}
+                          />
+                          <div className="flex-1">
+                            <p className="font-medium">{blade.name}</p>
+                            <p className="text-sm text-muted-foreground">+{blade.price.toLocaleString()} ₽</p>
                           </div>
                         </div>
                       </div>
