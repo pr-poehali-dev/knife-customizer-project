@@ -586,7 +586,7 @@ const Index = () => {
             </div>
 
             {/* Мобильная версия */}
-            <div className="lg:hidden flex flex-col h-[calc(100vh-8rem)] gap-4">
+            <div className="lg:hidden flex flex-col h-[calc(100vh-8rem)] gap-2">
               {/* Фото ножа - верхняя часть */}
               <Card className="p-0 overflow-hidden bg-card border-border/40 h-[45vh]">
                 <div className="relative h-full bg-gradient-to-br from-muted/50 to-background">
@@ -611,67 +611,70 @@ const Index = () => {
                 </div>
               </Card>
 
-              {/* Индикатор этапов (точки) */}
-              <div className="flex justify-center gap-2 py-2">
-                {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      const container = document.querySelector('.mobile-config-scroll');
-                      if (container) {
-                        const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
-                        const gap = 12;
-                        container.scrollTo({ left: (cardWidth + gap) * index, behavior: 'smooth' });
-                      }
-                    }}
-                    className={`h-2 rounded-full transition-all ${
-                      mobileActiveCard === index 
-                        ? 'w-6 bg-accent' 
-                        : 'w-2 bg-muted-foreground/30'
-                    }`}
-                    aria-label={`Перейти к этапу ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* Горизонтальная прокрутка конфигураций */}
-              <div className="flex-1 overflow-hidden relative">
-                {/* Заголовок с навигацией */}
-                <div className="flex items-center justify-between mb-3 px-1">
-                  <button
-                    onClick={() => {
-                      const container = document.querySelector('.mobile-config-scroll');
-                      if (container && mobileActiveCard > 0) {
-                        const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
-                        const gap = 12;
-                        container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard - 1), behavior: 'smooth' });
-                      }
-                    }}
-                    disabled={mobileActiveCard === 0}
-                    className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    <Icon name="ChevronLeft" size={20} />
-                  </button>
-                  
-                  <h3 className="text-base font-semibold text-center flex-1">
+              {/* Заголовок с навигацией и точками */}
+              <div className="flex items-center justify-center gap-3 py-3">
+                <button
+                  onClick={() => {
+                    const container = document.querySelector('.mobile-config-scroll');
+                    if (container && mobileActiveCard > 0) {
+                      const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
+                      const gap = 12;
+                      container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard - 1), behavior: 'smooth' });
+                    }
+                  }}
+                  disabled={mobileActiveCard === 0}
+                  className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  <Icon name="ChevronLeft" size={20} />
+                </button>
+                
+                <div className="flex flex-col items-center gap-2 flex-1">
+                  <h3 className="text-base font-semibold text-center">
                     {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'][mobileActiveCard]}
                   </h3>
                   
-                  <button
-                    onClick={() => {
-                      const container = document.querySelector('.mobile-config-scroll');
-                      if (container && mobileActiveCard < 4) {
-                        const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
-                        const gap = 12;
-                        container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard + 1), behavior: 'smooth' });
-                      }
-                    }}
-                    disabled={mobileActiveCard === 4}
-                    className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    <Icon name="ChevronRight" size={20} />
-                  </button>
+                  {/* Индикатор этапов (точки) */}
+                  <div className="flex justify-center gap-2">
+                    {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          const container = document.querySelector('.mobile-config-scroll');
+                          if (container) {
+                            const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
+                            const gap = 12;
+                            container.scrollTo({ left: (cardWidth + gap) * index, behavior: 'smooth' });
+                          }
+                        }}
+                        className={`h-2 rounded-full transition-all ${
+                          mobileActiveCard === index 
+                            ? 'w-6 bg-accent' 
+                            : 'w-2 bg-muted-foreground/30'
+                        }`}
+                        aria-label={`Перейти к этапу ${index + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
+                
+                <button
+                  onClick={() => {
+                    const container = document.querySelector('.mobile-config-scroll');
+                    if (container && mobileActiveCard < 4) {
+                      const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
+                      const gap = 12;
+                      container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard + 1), behavior: 'smooth' });
+                    }
+                  }}
+                  disabled={mobileActiveCard === 4}
+                  className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  <Icon name="ChevronRight" size={20} />
+                </button>
+              </div>
+
+              {/* Горизонтальная прокрутка конфигураций */}
+              <div className="flex-1 overflow-hidden">
                 <div 
                   className="mobile-config-scroll flex gap-3 h-full overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
                   onScroll={(e) => {
