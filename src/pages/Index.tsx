@@ -25,6 +25,8 @@ interface Config {
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<'configurator' | 'gallery' | 'about'>('configurator');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileActiveCard, setMobileActiveCard] = useState(0);
   const [currentImage, setCurrentImage] = useState('https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg');
   const [imageKey, setImageKey] = useState(0);
   const [activeCard, setActiveCard] = useState(0);
@@ -160,10 +162,11 @@ const Index = () => {
               <Icon name="Sword" size={28} className="text-accent lg:w-8 lg:h-8" />
               Assasin's Blade
             </h1>
-            <nav className="flex gap-4 lg:gap-8">
+            {/* Десктоп меню */}
+            <nav className="hidden lg:flex gap-8">
               <button
                 onClick={() => setActiveSection('configurator')}
-                className={`text-xs lg:text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-sm font-medium transition-colors hover:text-primary ${
                   activeSection === 'configurator' ? 'text-primary' : 'text-muted-foreground'
                 }`}
               >
@@ -171,7 +174,7 @@ const Index = () => {
               </button>
               <button
                 onClick={() => setActiveSection('gallery')}
-                className={`text-xs lg:text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-sm font-medium transition-colors hover:text-primary ${
                   activeSection === 'gallery' ? 'text-primary' : 'text-muted-foreground'
                 }`}
               >
@@ -179,13 +182,53 @@ const Index = () => {
               </button>
               <button
                 onClick={() => setActiveSection('about')}
-                className={`text-xs lg:text-sm font-medium transition-colors hover:text-primary ${
+                className={`text-sm font-medium transition-colors hover:text-primary ${
                   activeSection === 'about' ? 'text-primary' : 'text-muted-foreground'
                 }`}
               >
                 О бренде
               </button>
             </nav>
+            
+            {/* Мобильное меню (бургер) */}
+            <div className="lg:hidden relative">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 text-foreground"
+                aria-label="Меню"
+              >
+                <Icon name={mobileMenuOpen ? "X" : "Menu"} size={24} />
+              </button>
+              
+              {mobileMenuOpen && (
+                <div className="absolute right-0 top-12 bg-card border border-border rounded-lg shadow-lg py-2 min-w-[180px] z-50">
+                  <button
+                    onClick={() => { setActiveSection('configurator'); setMobileMenuOpen(false); }}
+                    className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent/10 ${
+                      activeSection === 'configurator' ? 'text-accent bg-accent/5' : 'text-foreground'
+                    }`}
+                  >
+                    Конфигуратор
+                  </button>
+                  <button
+                    onClick={() => { setActiveSection('gallery'); setMobileMenuOpen(false); }}
+                    className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent/10 ${
+                      activeSection === 'gallery' ? 'text-accent bg-accent/5' : 'text-foreground'
+                    }`}
+                  >
+                    Галерея
+                  </button>
+                  <button
+                    onClick={() => { setActiveSection('about'); setMobileMenuOpen(false); }}
+                    className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent/10 ${
+                      activeSection === 'about' ? 'text-accent bg-accent/5' : 'text-foreground'
+                    }`}
+                  >
+                    О бренде
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
@@ -568,15 +611,79 @@ const Index = () => {
                 </div>
               </Card>
 
+              {/* Индикатор этапов (точки) */}
+              <div className="flex justify-center gap-2 py-2">
+                {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      const container = document.querySelector('.mobile-config-scroll');
+                      if (container) {
+                        const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
+                        const gap = 12;
+                        container.scrollTo({ left: (cardWidth + gap) * index, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`h-2 rounded-full transition-all ${
+                      mobileActiveCard === index 
+                        ? 'w-6 bg-accent' 
+                        : 'w-2 bg-muted-foreground/30'
+                    }`}
+                    aria-label={`Перейти к этапу ${index + 1}`}
+                  />
+                ))}
+              </div>
+
               {/* Горизонтальная прокрутка конфигураций */}
-              <div className="flex-1 overflow-hidden">
-                <div className="flex gap-3 h-full overflow-x-auto pb-2 snap-x snap-mandatory" style={{ scrollbarWidth: 'thin' }}>
+              <div className="flex-1 overflow-hidden relative">
+                {/* Заголовок с навигацией */}
+                <div className="flex items-center justify-between mb-3 px-1">
+                  <button
+                    onClick={() => {
+                      const container = document.querySelector('.mobile-config-scroll');
+                      if (container && mobileActiveCard > 0) {
+                        const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
+                        const gap = 12;
+                        container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard - 1), behavior: 'smooth' });
+                      }
+                    }}
+                    disabled={mobileActiveCard === 0}
+                    className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <Icon name="ChevronLeft" size={20} />
+                  </button>
+                  
+                  <h3 className="text-base font-semibold text-center flex-1">
+                    {['Клинки', 'Обработка', 'Ножны', 'Дополнительно', 'Упаковка'][mobileActiveCard]}
+                  </h3>
+                  
+                  <button
+                    onClick={() => {
+                      const container = document.querySelector('.mobile-config-scroll');
+                      if (container && mobileActiveCard < 4) {
+                        const cardWidth = container.querySelector('.snap-center')?.clientWidth || 300;
+                        const gap = 12;
+                        container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard + 1), behavior: 'smooth' });
+                      }
+                    }}
+                    disabled={mobileActiveCard === 4}
+                    className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <Icon name="ChevronRight" size={20} />
+                  </button>
+                </div>
+                <div 
+                  className="mobile-config-scroll flex gap-3 h-full overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
+                  onScroll={(e) => {
+                    const scrollLeft = e.currentTarget.scrollLeft;
+                    const cardWidth = e.currentTarget.querySelector('.snap-center')?.clientWidth || 300;
+                    const gap = 12;
+                    const newActiveCard = Math.round(scrollLeft / (cardWidth + gap));
+                    setMobileActiveCard(newActiveCard);
+                  }}
+                >
                   {/* Карточка: Клинки */}
                   <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Layers" size={20} className="text-accent" />
-                      <h3 className="font-semibold">Клинки</h3>
-                    </div>
                     <div className="space-y-2 flex-1 overflow-y-auto">
                       {bladeOptions.map(blade => (
                         <div
@@ -602,10 +709,6 @@ const Index = () => {
 
                   {/* Карточка: Обработка */}
                   <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Sparkles" size={20} className="text-accent" />
-                      <h3 className="font-semibold">Обработка</h3>
-                    </div>
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig(prev => ({ ...prev, finish: value }))}>
                       <div className="space-y-2">
                         {finishOptions.map(finish => (
@@ -635,10 +738,6 @@ const Index = () => {
 
                   {/* Карточка: Ножны */}
                   <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Shield" size={20} className="text-accent" />
-                      <h3 className="font-semibold">Ножны</h3>
-                    </div>
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig(prev => ({ ...prev, sheath: value }))}>
                       <div className="space-y-2">
                         {sheathOptions.map(sheath => (
@@ -668,10 +767,6 @@ const Index = () => {
 
                   {/* Карточка: Дополнительно */}
                   <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Package" size={20} className="text-accent" />
-                      <h3 className="font-semibold">Дополнительно</h3>
-                    </div>
                     <div className="space-y-2 flex-1 overflow-y-auto">
                       <div
                         onClick={() => setConfig(prev => ({ ...prev, springs: !prev.springs }))}
@@ -722,10 +817,6 @@ const Index = () => {
 
                   {/* Карточка: Упаковка и заказ */}
                   <Card className="min-w-[85vw] snap-center p-4 bg-card border-border/40 flex flex-col">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon name="Gift" size={20} className="text-accent" />
-                      <h3 className="font-semibold">Упаковка</h3>
-                    </div>
                     <RadioGroup value={config.packaging} onValueChange={(value) => setConfig(prev => ({ ...prev, packaging: value }))}>
                       <div className="space-y-2 mb-4">
                         {packagingOptions.map(pkg => (
