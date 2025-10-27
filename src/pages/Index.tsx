@@ -316,18 +316,19 @@ const Index = () => {
       }
     });
     
-    if (specificationsData[config.finish]) {
+    const finishOption = finishOptions.find(f => f.id === config.finish);
+    if (finishOption && finishOption.price > 0 && specificationsData[config.finish]) {
       specs.push(specificationsData[config.finish]);
     }
     
-    const bodyKey = config.body === 'none' ? 'none-body' : config.body;
-    if (specificationsData[bodyKey]) {
-      specs.push(specificationsData[bodyKey]);
+    const bodyOption = bodyOptions.find(b => b.id === config.body);
+    if (bodyOption && bodyOption.price > 0 && specificationsData[config.body]) {
+      specs.push(specificationsData[config.body]);
     }
     
-    const sheathKey = config.sheath === 'none' ? 'none-sheath' : config.sheath;
-    if (specificationsData[sheathKey]) {
-      specs.push(specificationsData[sheathKey]);
+    const sheathOption = sheathOptions.find(s => s.id === config.sheath);
+    if (sheathOption && sheathOption.price > 0 && specificationsData[config.sheath]) {
+      specs.push(specificationsData[config.sheath]);
     }
     
     if (config.springs && specificationsData['springs']) {
@@ -342,7 +343,8 @@ const Index = () => {
       specs.push(specificationsData['oilcan']);
     }
     
-    if (specificationsData[config.packaging]) {
+    const packagingOption = packagingOptions.find(p => p.id === config.packaging);
+    if (packagingOption && packagingOption.price > 0 && specificationsData[config.packaging]) {
       specs.push(specificationsData[config.packaging]);
     }
     
