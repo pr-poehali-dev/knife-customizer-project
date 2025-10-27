@@ -210,10 +210,44 @@ const Index = () => {
               {/* Правая часть: Конфигурация (сверху) + Итог (снизу) - 50% ширины */}
               <div className="flex flex-col gap-3 h-full">
                 {/* Верхний блок: Карточки конфигурации - занимает ~58% высоты */}
-                <div className="flex-[1.4] min-h-0 overflow-hidden flex flex-col gap-2">
+                <div className="flex-[1.4] min-h-0 overflow-hidden flex flex-col gap-2 relative">
+                  {/* Стрелка влево */}
+                  {activeCard > 0 && (
+                    <button
+                      onClick={() => {
+                        const container = document.querySelector('.config-scroll');
+                        if (container) {
+                          const cardWidth = container.querySelector('.snap-start')?.clientWidth || 400;
+                          container.scrollTo({ left: (activeCard - 1) * cardWidth, behavior: 'smooth' });
+                        }
+                      }}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-accent/90 hover:bg-accent text-accent-foreground rounded-full p-2 shadow-lg transition-all"
+                      aria-label="Предыдущая карточка"
+                    >
+                      <Icon name="ChevronLeft" size={20} />
+                    </button>
+                  )}
+                  
+                  {/* Стрелка вправо */}
+                  {activeCard < 4 && (
+                    <button
+                      onClick={() => {
+                        const container = document.querySelector('.config-scroll');
+                        if (container) {
+                          const cardWidth = container.querySelector('.snap-start')?.clientWidth || 400;
+                          container.scrollTo({ left: (activeCard + 1) * cardWidth, behavior: 'smooth' });
+                        }
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-accent/90 hover:bg-accent text-accent-foreground rounded-full p-2 shadow-lg transition-all"
+                      aria-label="Следующая карточка"
+                    >
+                      <Icon name="ChevronRight" size={20} />
+                    </button>
+                  )}
+                  
                   <div 
-                    className="flex gap-3 overflow-x-auto snap-x snap-mandatory flex-1 pb-1" 
-                    style={{ scrollbarWidth: 'thin' }}
+                    className="config-scroll flex gap-3 overflow-x-auto snap-x snap-mandatory flex-1 pb-1 scrollbar-hide" 
+                    style={{ scrollbarWidth: 'none' }}
                     onScroll={(e) => {
                       const scrollLeft = e.currentTarget.scrollLeft;
                       const cardWidth = e.currentTarget.querySelector('.snap-start')?.clientWidth || 400;
@@ -223,14 +257,14 @@ const Index = () => {
                     }}
                   >
                     {/* Карточка 1: Клинки */}
-                    <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Icon name="Sword" size={16} className="text-accent" />
-                        <h3 className="text-sm font-semibold">Клинки</h3>
+                    <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Icon name="Sword" size={20} className="text-accent" />
+                        <h3 className="text-base font-semibold">Клинки</h3>
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         {bladeOptions.map((blade) => (
-                          <div key={blade.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={blade.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <Checkbox
                               id={`blade-${blade.id}-desktop`}
                               checked={config.blades.includes(blade.id)}
@@ -244,8 +278,8 @@ const Index = () => {
                             />
                             <Label htmlFor={`blade-${blade.id}-desktop`} className="flex-1 cursor-pointer">
                               <div className="flex justify-between items-center">
-                                <span className="text-sm font-medium">{blade.name}</span>
-                                <span className="text-xs text-muted-foreground">{blade.price.toLocaleString('ru-RU')} ₽</span>
+                                <span className="font-medium">{blade.name}</span>
+                                <span className="text-sm text-muted-foreground">{blade.price.toLocaleString('ru-RU')} ₽</span>
                               </div>
                             </Label>
                           </div>
@@ -254,22 +288,22 @@ const Index = () => {
                     </Card>
 
                     {/* Карточка 2: Обработка */}
-                    <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Sparkles" size={16} className="text-accent" />
-                      <h3 className="text-sm font-semibold">Обработка</h3>
+                    <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon name="Sparkles" size={20} className="text-accent" />
+                      <h3 className="text-base font-semibold">Обработка</h3>
                     </div>
                     <RadioGroup value={config.finish} onValueChange={(value) => setConfig({...config, finish: value})}>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         {finishOptions.map((finish) => (
-                          <div key={finish.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={finish.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={finish.id} id={`finish-${finish.id}-desktop`} />
                             <Label 
                               htmlFor={`finish-${finish.id}-desktop`}
                               className="flex-1 flex items-center justify-between cursor-pointer"
                             >
-                              <span className="text-sm">{finish.name}</span>
-                              <span className="text-xs text-muted-foreground font-medium">
+                              <span>{finish.name}</span>
+                              <span className="text-sm text-muted-foreground font-medium">
                                 {finish.price === 0 ? 'Включено' : `${finish.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
@@ -280,22 +314,22 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 3: Ножны */}
-                  <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Package" size={16} className="text-accent" />
-                      <h3 className="text-sm font-semibold">Ножны</h3>
+                  <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon name="Package" size={20} className="text-accent" />
+                      <h3 className="text-base font-semibold">Ножны</h3>
                     </div>
                     <RadioGroup value={config.sheath} onValueChange={(value) => setConfig({...config, sheath: value})}>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         {sheathOptions.map((sheath) => (
-                          <div key={sheath.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={sheath.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={sheath.id} id={`sheath-${sheath.id}-desktop`} />
                             <Label 
                               htmlFor={`sheath-${sheath.id}-desktop`}
                               className="flex-1 flex items-center justify-between cursor-pointer"
                             >
-                              <span className="text-sm">{sheath.name}</span>
-                              <span className="text-xs text-muted-foreground font-medium">
+                              <span>{sheath.name}</span>
+                              <span className="text-sm text-muted-foreground font-medium">
                                 {sheath.price === 0 ? '—' : `${sheath.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
@@ -306,13 +340,13 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка 4: Дополнительно */}
-                  <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Plus" size={16} className="text-accent" />
-                      <h3 className="text-sm font-semibold">Дополнительно</h3>
+                  <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon name="Plus" size={20} className="text-accent" />
+                      <h3 className="text-base font-semibold">Дополнительно</h3>
                     </div>
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                         <Checkbox
                           id="springs-desktop"
                           checked={config.springs}
@@ -322,8 +356,8 @@ const Index = () => {
                           htmlFor="springs-desktop"
                           className="flex-1 flex items-center justify-between cursor-pointer"
                         >
-                          <span className="text-sm">Пружины</span>
-                          <span className="text-xs text-muted-foreground font-medium">800 ₽</span>
+                          <span>Пружины</span>
+                          <span className="text-sm text-muted-foreground font-medium">800 ₽</span>
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
@@ -336,8 +370,8 @@ const Index = () => {
                           htmlFor="toolkit-desktop"
                           className="flex-1 flex items-center justify-between cursor-pointer"
                         >
-                          <span className="text-sm">Инструменты</span>
-                          <span className="text-xs text-muted-foreground font-medium">1,200 ₽</span>
+                          <span>Инструменты</span>
+                          <span className="text-sm text-muted-foreground font-medium">1,200 ₽</span>
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
@@ -350,30 +384,30 @@ const Index = () => {
                           htmlFor="oilcan-desktop"
                           className="flex-1 flex items-center justify-between cursor-pointer"
                         >
-                          <span className="text-sm">Масленка</span>
-                          <span className="text-xs text-muted-foreground font-medium">450 ₽</span>
+                          <span>Масленка</span>
+                          <span className="text-sm text-muted-foreground font-medium">450 ₽</span>
                         </Label>
                       </div>
                     </div>
                   </Card>
 
                   {/* Карточка 5: Упаковка */}
-                  <Card className="min-w-full snap-start p-2.5 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon name="Gift" size={16} className="text-accent" />
-                      <h3 className="text-sm font-semibold">Упаковка</h3>
+                  <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon name="Gift" size={20} className="text-accent" />
+                      <h3 className="text-base font-semibold">Упаковка</h3>
                     </div>
                     <RadioGroup value={config.packaging} onValueChange={(value) => setConfig({...config, packaging: value})}>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         {packagingOptions.map((pkg) => (
-                          <div key={pkg.id} className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-accent/10 transition-colors">
+                          <div key={pkg.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
                             <RadioGroupItem value={pkg.id} id={`pkg-${pkg.id}-desktop`} />
                             <Label 
                               htmlFor={`pkg-${pkg.id}-desktop`}
                               className="flex-1 flex items-center justify-between cursor-pointer"
                             >
-                              <span className="text-sm">{pkg.name}</span>
-                              <span className="text-xs text-muted-foreground font-medium">
+                              <span>{pkg.name}</span>
+                              <span className="text-sm text-muted-foreground font-medium">
                                 {pkg.price === 0 ? 'Включено' : `${pkg.price.toLocaleString('ru-RU')} ₽`}
                               </span>
                             </Label>
