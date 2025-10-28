@@ -662,7 +662,7 @@ const Index = () => {
                   )}
 
                   {/* Стрелка вправо */}
-                  {activeCard < 5 && (
+                  {activeCard < 6 && (
                     <button
                       onClick={() => {
                         const container =
