@@ -435,7 +435,7 @@ const Index = () => {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Собственное производство (не&nbsp;Китай)</span>
+                  <span className="text-muted-foreground">Собственное производство с&nbsp;2018-го года (не&nbsp;Китай)</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
