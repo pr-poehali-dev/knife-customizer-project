@@ -37,6 +37,7 @@ const Index = () => {
   const [activeCard, setActiveCard] = useState(0);
   const [infoOpen, setInfoOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(true);
 
   const [config, setConfig] = useState<Config>({
     blades: [],
@@ -416,6 +417,52 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {welcomeModalOpen && (
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <Card className="max-w-lg w-full p-6 lg:p-8 space-y-6 animate-fade-in">
+            <div className="flex items-center gap-3">
+              <img 
+                src="https://cdn.poehali.dev/files/5af04389-7ef4-454b-be3d-4095885f2945.png" 
+                alt="Assasin's Blade" 
+                className="w-12 h-12 object-contain"
+              />
+              <h2 className="text-2xl lg:text-3xl font-bold">Assasin's Blade</h2>
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-accent">Лучшие выкидные ножи в России</h3>
+              
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Собственное производство (не Китай)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Сменные клинки твердость 60+ Роквелл</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Корпус из стали и сплава алюминия</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Собери свой комплект сам</span>
+                </li>
+              </ul>
+            </div>
+            
+            <Button 
+              onClick={() => setWelcomeModalOpen(false)}
+              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-6 text-lg font-semibold"
+            >
+              <Icon name="Settings" size={20} className="mr-2" />
+              В конфигуратор
+            </Button>
+          </Card>
+        </div>
+      )}
+
       <header className="border-b border-border/40 backdrop-blur-sm sticky top-0 z-50 bg-background/95">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
