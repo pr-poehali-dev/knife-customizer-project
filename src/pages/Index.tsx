@@ -393,7 +393,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl lg:text-3xl font-bold tracking-tight flex items-center gap-2 lg:gap-3">
               <img 
-                src="https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/340d14ac-d335-4727-870d-ca3960d2d597.jpg" 
+                src="https://cdn.poehali.dev/files/5af04389-7ef4-454b-be3d-4095885f2945.png" 
                 alt="Assasin's Blade" 
                 className="w-7 h-7 lg:w-9 lg:h-9 object-contain"
               />
