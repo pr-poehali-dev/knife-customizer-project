@@ -430,16 +430,16 @@ const Index = () => {
             </div>
             
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-accent">Лучшие выкидные ножи в России</h3>
+              <h3 className="text-xl font-semibold text-accent">Лучшие выкидные ножи в&nbsp;России</h3>
               
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Собственное производство (не Китай)</span>
+                  <span className="text-muted-foreground">Собственное производство (не&nbsp;Китай)</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Сменные клинки твердость 60+ Роквелл</span>
+                  <span className="text-muted-foreground">Сменные клинки твердостью 60+&nbsp;HRc</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
