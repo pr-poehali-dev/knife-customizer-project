@@ -447,7 +447,7 @@ const Index = () => {
                 </li>
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Собери свой комплект сегодня и <span className="text-accent font-bold">получи подарок</span> в конце!</span>
+                  <span className="text-muted-foreground">Собери свой комплект сегодня и&nbsp;<span className="text-accent font-bold">получи подарок</span> в&nbsp;конце!</span>
                 </li>
               </ul>
             </div>
