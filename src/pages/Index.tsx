@@ -986,11 +986,29 @@ const Index = () => {
                         </div>
                       </RadioGroup>
                     </Card>
+
+                    {/* Карточка 7: Подарок */}
+                    <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Icon name="Gift" size={20} className="text-accent" />
+                        <h3 className="text-base font-semibold">Ваш подарок при заказе сегодня</h3>
+                      </div>
+                      <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-foreground">Финский клинок</p>
+                            <p className="text-xs text-muted-foreground line-through">4 200 ₽</p>
+                            <p className="text-lg font-bold text-accent mt-1">Бесплатно</p>
+                          </div>
+                          <Icon name="Gift" size={48} className="text-accent opacity-20" />
+                        </div>
+                      </div>
+                    </Card>
                   </div>
 
                   {/* Индикаторы карточек */}
                   <div className="flex justify-center gap-2 flex-shrink-0">
-                    {[0, 1, 2, 3, 4, 5].map((index) => (
+                    {[0, 1, 2, 3, 4, 5, 6].map((index) => (
                       <button
                         key={index}
                         onClick={() => {
@@ -1277,6 +1295,7 @@ const Index = () => {
                         "Ножны",
                         "Дополнительно",
                         "Упаковка",
+                        "Подарок",
                       ][mobileActiveCard]
                     }
                   </h3>
@@ -1290,6 +1309,7 @@ const Index = () => {
                       "Ножны",
                       "Дополнительно",
                       "Упаковка",
+                      "Подарок",
                     ].map((_, index) => (
                       <button
                         key={index}
@@ -1324,7 +1344,7 @@ const Index = () => {
                     const container = document.querySelector(
                       ".mobile-config-scroll",
                     );
-                    if (container && mobileActiveCard < 5) {
+                    if (container && mobileActiveCard < 6) {
                       const cardWidth =
                         container.querySelector(".snap-center")?.clientWidth ||
                         300;
@@ -1335,7 +1355,7 @@ const Index = () => {
                       });
                     }
                   }}
-                  disabled={mobileActiveCard === 5}
+                  disabled={mobileActiveCard === 6}
                   className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
                   <Icon name="ChevronRight" size={20} />
@@ -1661,6 +1681,23 @@ const Index = () => {
                           Выберите хотя бы один клинок
                         </p>
                       )}
+                    </div>
+                  </Card>
+
+                  {/* Карточка: Подарок */}
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden p-4">
+                    <h3 className="text-lg font-semibold mb-4">Ваш подарок при заказе сегодня</h3>
+                    <div className="flex-1 flex items-center justify-center">
+                      <div className="bg-accent/10 rounded-lg p-6 border-2 border-accent/20 w-full">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-foreground text-lg">Финский клинок</p>
+                            <p className="text-sm text-muted-foreground line-through mt-1">4 200 ₽</p>
+                            <p className="text-2xl font-bold text-accent mt-2">Бесплатно</p>
+                          </div>
+                          <Icon name="Gift" size={64} className="text-accent opacity-20" />
+                        </div>
+                      </div>
                     </div>
                   </Card>
                 </div>
