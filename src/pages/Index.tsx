@@ -918,8 +918,8 @@ const Index = () => {
                   
                   {/* Информационное окно */}
                   {infoOpen && getCurrentSpecs().length > 0 && (
-                    <div className="absolute top-3 left-3 w-[85%] max-h-[70%] bg-background/95 backdrop-blur-md rounded-xl shadow-2xl border border-border/40 overflow-hidden z-30">
-                      <div className="flex items-center justify-between p-2.5 border-b border-border/40">
+                    <div className="absolute top-3 left-3 w-[85%] max-h-[70%] bg-background/95 backdrop-blur-md rounded-xl shadow-2xl border border-border/40 flex flex-col z-30">
+                      <div className="flex items-center justify-between p-2.5 border-b border-border/40 flex-shrink-0">
                         <h3 className="font-semibold text-xs">Характеристики</h3>
                         <button
                           onClick={() => setInfoOpen(false)}
@@ -929,7 +929,7 @@ const Index = () => {
                           <Icon name="X" size={14} />
                         </button>
                       </div>
-                      <div className="overflow-y-auto max-h-[calc(70vh-3rem)] p-2.5 space-y-2.5">
+                      <div className="overflow-y-auto flex-1 p-2.5 space-y-2.5">
                         {getCurrentSpecs().map((spec, index) => (
                           <div key={index} className="space-y-1">
                             <h4 className="font-semibold text-xs text-accent">{spec.title}</h4>
@@ -1017,7 +1017,7 @@ const Index = () => {
                       container.scrollTo({ left: (cardWidth + gap) * (mobileActiveCard + 1), behavior: 'smooth' });
                     }
                   }}
-                  disabled={mobileActiveCard === 4}
+                  disabled={mobileActiveCard === 5}
                   className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
                   <Icon name="ChevronRight" size={20} />
