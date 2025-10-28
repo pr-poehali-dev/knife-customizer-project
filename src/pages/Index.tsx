@@ -392,7 +392,11 @@ const Index = () => {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl lg:text-3xl font-bold tracking-tight flex items-center gap-2 lg:gap-3">
-              <Icon name="Sword" size={28} className="text-accent lg:w-8 lg:h-8" />
+              <img 
+                src="https://cdn.poehali.dev/files/5af04389-7ef4-454b-be3d-4095885f2945.png" 
+                alt="Assasin's Blade" 
+                className="w-7 h-7 lg:w-9 lg:h-9 object-contain"
+              />
               Assasin's Blade
             </h1>
             {/* Десктоп меню */}
