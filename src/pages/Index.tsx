@@ -632,9 +632,9 @@ const Index = () => {
                   {config.toolkit && (
                     <div className="absolute bottom-4 right-4 w-48 animate-fade-in z-10">
                       <img
-                        src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
+                        src="https://cdn.poehali.dev/files/01624b71-7767-465d-a9d8-66fcc02203d2.png"
                         alt="Набор отвёрток"
-                        className="w-full h-auto object-cover rounded-lg shadow-2xl border-2 border-accent/30"
+                        className="w-full h-auto object-cover rounded-lg shadow-2xl"
                       />
                     </div>
                   )}
@@ -1329,9 +1329,9 @@ const Index = () => {
                   {config.toolkit && (
                     <div className="absolute bottom-3 right-3 w-32 animate-fade-in z-10">
                       <img
-                        src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
+                        src="https://cdn.poehali.dev/files/01624b71-7767-465d-a9d8-66fcc02203d2.png"
                         alt="Набор отвёрток"
-                        className="w-full h-auto object-cover rounded-lg shadow-2xl border-2 border-accent/30"
+                        className="w-full h-auto object-cover rounded-lg shadow-2xl"
                       />
                     </div>
                   )}
