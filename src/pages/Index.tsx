@@ -57,7 +57,7 @@ const Index = () => {
   const bladeOptions: ConfigOption[] = [
     { id: "tanto", name: "Танто", price: 3500 },
     { id: "finnish", name: "Финский", price: 4200 },
-    { id: "dagger", name: "Кортик", price: 6200 },
+    { id: "dagger", name: "Навахо", price: 3550 },
     { id: "standard", name: "Стандарт", price: 3300 },
   ];
 
@@ -1085,8 +1085,10 @@ const Index = () => {
                           Ваш подарок при заказе сегодня
                         </h3>
                       </div>
-                      <div 
-                        onClick={() => setConfig({ ...config, gift: !config.gift })}
+                      <div
+                        onClick={() =>
+                          setConfig({ ...config, gift: !config.gift })
+                        }
                         className={`rounded-lg p-4 border-2 cursor-pointer transition-all ${
                           config.gift
                             ? "bg-accent/10 border-accent"
@@ -1098,7 +1100,10 @@ const Index = () => {
                             <Checkbox
                               checked={config.gift}
                               onCheckedChange={(checked) =>
-                                setConfig({ ...config, gift: checked as boolean })
+                                setConfig({
+                                  ...config,
+                                  gift: checked as boolean,
+                                })
                               }
                             />
                             <div>
@@ -1841,8 +1846,10 @@ const Index = () => {
                       Ваш подарок при заказе сегодня
                     </h3>
                     <div className="flex-1 flex items-center justify-center min-h-0">
-                      <div 
-                        onClick={() => setConfig((prev) => ({ ...prev, gift: !prev.gift }))}
+                      <div
+                        onClick={() =>
+                          setConfig((prev) => ({ ...prev, gift: !prev.gift }))
+                        }
                         className={`rounded-lg p-3 border-2 w-full cursor-pointer transition-all ${
                           config.gift
                             ? "bg-accent/10 border-accent"
@@ -1851,10 +1858,13 @@ const Index = () => {
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2 flex-1">
-                            <Checkbox 
+                            <Checkbox
                               checked={config.gift}
                               onCheckedChange={(checked) =>
-                                setConfig((prev) => ({ ...prev, gift: checked as boolean }))
+                                setConfig((prev) => ({
+                                  ...prev,
+                                  gift: checked as boolean,
+                                }))
                               }
                             />
                             <div>
