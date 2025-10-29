@@ -23,6 +23,7 @@ interface Config {
   toolkit: boolean;
   oilcan: boolean;
   packaging: string;
+  gift: boolean;
 }
 
 const Index = () => {
@@ -50,6 +51,7 @@ const Index = () => {
     toolkit: false,
     oilcan: false,
     packaging: "bag",
+    gift: false,
   });
 
   const bladeOptions: ConfigOption[] = [
@@ -1083,18 +1085,33 @@ const Index = () => {
                           Ваш подарок при заказе сегодня
                         </h3>
                       </div>
-                      <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+                      <div 
+                        onClick={() => setConfig({ ...config, gift: !config.gift })}
+                        className={`rounded-lg p-4 border-2 cursor-pointer transition-all ${
+                          config.gift
+                            ? "bg-accent/10 border-accent"
+                            : "bg-accent/5 border-accent/20 hover:bg-accent/10"
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium text-foreground">
-                              Финский клинок
-                            </p>
-                            <p className="text-xs text-muted-foreground line-through">
-                              4 200 ₽
-                            </p>
-                            <p className="text-lg font-bold text-accent mt-1">
-                              Бесплатно
-                            </p>
+                          <div className="flex items-center gap-3">
+                            <Checkbox
+                              checked={config.gift}
+                              onCheckedChange={(checked) =>
+                                setConfig({ ...config, gift: checked as boolean })
+                              }
+                            />
+                            <div>
+                              <p className="font-medium text-foreground">
+                                Финский клинок
+                              </p>
+                              <p className="text-xs text-muted-foreground line-through">
+                                4 200 ₽
+                              </p>
+                              <p className="text-lg font-bold text-accent mt-1">
+                                Бесплатно
+                              </p>
+                            </div>
                           </div>
                           <Icon
                             name="Gift"
@@ -1108,7 +1125,7 @@ const Index = () => {
 
                   {/* Индикаторы карточек */}
                   <div className="flex justify-center gap-2 flex-shrink-0">
-                    {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
                       <button
                         key={index}
                         onClick={() => {
@@ -1824,23 +1841,38 @@ const Index = () => {
                       Ваш подарок при заказе сегодня
                     </h3>
                     <div className="flex-1 flex items-center justify-center min-h-0">
-                      <div className="bg-accent/10 rounded-lg p-3 border-2 border-accent/20 w-full">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium text-foreground text-sm">
-                              Финский клинок
-                            </p>
-                            <p className="text-xs text-muted-foreground line-through mt-0.5">
-                              4 200 ₽
-                            </p>
-                            <p className="text-lg font-bold text-accent mt-0.5">
-                              Бесплатно
-                            </p>
+                      <div 
+                        onClick={() => setConfig((prev) => ({ ...prev, gift: !prev.gift }))}
+                        className={`rounded-lg p-3 border-2 w-full cursor-pointer transition-all ${
+                          config.gift
+                            ? "bg-accent/10 border-accent"
+                            : "bg-accent/5 border-accent/20"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 flex-1">
+                            <Checkbox 
+                              checked={config.gift}
+                              onCheckedChange={(checked) =>
+                                setConfig((prev) => ({ ...prev, gift: checked as boolean }))
+                              }
+                            />
+                            <div>
+                              <p className="font-medium text-foreground text-sm">
+                                Финский клинок
+                              </p>
+                              <p className="text-xs text-muted-foreground line-through mt-0.5">
+                                4 200 ₽
+                              </p>
+                              <p className="text-lg font-bold text-accent mt-0.5">
+                                Бесплатно
+                              </p>
+                            </div>
                           </div>
                           <Icon
                             name="Gift"
-                            size={40}
-                            className="text-accent opacity-20"
+                            size={32}
+                            className="text-accent opacity-20 flex-shrink-0"
                           />
                         </div>
                       </div>
