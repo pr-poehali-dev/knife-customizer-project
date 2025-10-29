@@ -672,7 +672,7 @@ const Index = () => {
                   )}
 
                   {/* Стрелка вправо */}
-                  {activeCard < 6 && (
+                  {activeCard < 7 && (
                     <button
                       onClick={() => {
                         const container =
@@ -748,7 +748,46 @@ const Index = () => {
                       </RadioGroup>
                     </Card>
 
-                    {/* Карточка 2: Клинки */}
+                    {/* Карточка 2: Механизм */}
+                    <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Icon name="Settings" size={20} className="text-accent" />
+                        <h3 className="text-base font-semibold">Механизм</h3>
+                      </div>
+                      <RadioGroup
+                        value={config.mechanism}
+                        onValueChange={(value) =>
+                          setConfig({ ...config, mechanism: value })
+                        }
+                      >
+                        <div className="space-y-2">
+                          {mechanismOptions.map((mech) => (
+                            <div
+                              key={mech.id}
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors"
+                            >
+                              <RadioGroupItem
+                                value={mech.id}
+                                id={`mech-${mech.id}-desktop`}
+                              />
+                              <Label
+                                htmlFor={`mech-${mech.id}-desktop`}
+                                className="flex-1 flex items-center justify-between cursor-pointer"
+                              >
+                                <span>{mech.name}</span>
+                                <span className="text-sm text-muted-foreground font-medium">
+                                  {mech.price === 0
+                                    ? "—"
+                                    : `${mech.price.toLocaleString("ru-RU")} ₽`}
+                                </span>
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
+                      </RadioGroup>
+                    </Card>
+
+                    {/* Карточка 3: Клинки */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon name="Sword" size={20} className="text-accent" />
@@ -797,7 +836,7 @@ const Index = () => {
                       </div>
                     </Card>
 
-                    {/* Карточка 3: Обработка */}
+                    {/* Карточка 4: Обработка */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon
@@ -840,7 +879,7 @@ const Index = () => {
                       </RadioGroup>
                     </Card>
 
-                    {/* Карточка 4: Ножны */}
+                    {/* Карточка 5: Ножны */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon
@@ -883,7 +922,7 @@ const Index = () => {
                       </RadioGroup>
                     </Card>
 
-                    {/* Карточка 5: Дополнительно */}
+                    {/* Карточка 6: Дополнительно */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon name="Plus" size={20} className="text-accent" />
@@ -958,7 +997,7 @@ const Index = () => {
                       </div>
                     </Card>
 
-                    {/* Карточка 6: Упаковка */}
+                    {/* Карточка 7: Упаковка */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon name="Gift" size={20} className="text-accent" />
@@ -997,7 +1036,7 @@ const Index = () => {
                       </RadioGroup>
                     </Card>
 
-                    {/* Карточка 7: Подарок */}
+                    {/* Карточка 8: Подарок */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon name="Gift" size={20} className="text-accent" />
