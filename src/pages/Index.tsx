@@ -53,16 +53,16 @@ const Index = () => {
   });
 
   const bladeOptions: ConfigOption[] = [
-    { id: "tanto", name: "Танто", price: 8500 },
-    { id: "finnish", name: "Финский", price: 7800 },
-    { id: "dagger", name: "Кортик", price: 9500 },
-    { id: "standard", name: "Стандарт", price: 8200 },
+    { id: "tanto", name: "Танто", price: 3500 },
+    { id: "finnish", name: "Финский", price: 4200 },
+    { id: "dagger", name: "Кортик", price: 6200 },
+    { id: "standard", name: "Стандарт", price: 3300 },
   ];
 
   const finishOptions = [
     { id: "satin", name: "Сатин", price: 0 },
-    { id: "stonewash", name: "Стоунвош", price: 1200 },
-    { id: "blackwash", name: "Блеквош", price: 1500 },
+    { id: "stonewash", name: "Стоунвош", price: 550 },
+    { id: "blackwash", name: "Блеквош", price: 950 },
   ];
 
   const bodyOptions = [
@@ -72,13 +72,17 @@ const Index = () => {
 
   const mechanismOptions = [
     { id: "none", name: "Без механизма", price: 0 },
-    { id: "double-spring", name: "Надежный механизм с двумя пружинами", price: 1350 },
+    {
+      id: "double-spring",
+      name: "Надежный механизм с двумя пружинами",
+      price: 1350,
+    },
   ];
 
   const sheathOptions = [
     { id: "none", name: "Без ножен", price: 0 },
-    { id: "kydex", name: "Кайдекс", price: 2350 },
-    { id: "leather", name: "Кожа", price: 1550 },
+    { id: "kydex", name: "Кайдекс", price: 1950 },
+    { id: "leather", name: "Кожа", price: 1350 },
   ];
 
   const packagingOptions = [
@@ -431,43 +435,74 @@ const Index = () => {
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <Card className="max-w-lg w-full p-6 lg:p-8 space-y-6 animate-fade-in">
             <div className="flex items-center gap-3">
-              <img 
-                src="https://cdn.poehali.dev/files/5af04389-7ef4-454b-be3d-4095885f2945.png" 
-                alt="Assasin's Blade" 
+              <img
+                src="https://cdn.poehali.dev/files/5af04389-7ef4-454b-be3d-4095885f2945.png"
+                alt="Assasin's Blade"
                 className="w-12 h-12 object-contain"
               />
-              <h2 className="text-2xl lg:text-3xl font-bold">Assasin's Blade</h2>
+              <h2 className="text-2xl lg:text-3xl font-bold">
+                Assasin's Blade
+              </h2>
             </div>
-            
+
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-accent">Лучшие выкидные ножи в&nbsp;России</h3>
-              
+              <h3 className="text-xl font-semibold text-accent">
+                Лучшие выкидные ножи в&nbsp;России
+              </h3>
+
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Собственное производство с&nbsp;2018-го года (не&nbsp;Китай)</span>
+                  <Icon
+                    name="Check"
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Собственное производство с&nbsp;2018-го года (не&nbsp;Китай)
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Сменные клинки твердостью 60+&nbsp;HRc</span>
+                  <Icon
+                    name="Check"
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Сменные клинки твердостью 60+&nbsp;HRc
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Корпус из стали и сплава алюминия</span>
+                  <Icon
+                    name="Check"
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Корпус из стали и сплава алюминия
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Icon name="Check" size={20} className="text-accent mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">Собери свой комплект сегодня и&nbsp;<span className="text-accent font-bold">получи подарок</span> в&nbsp;конце!</span>
+                  <Icon
+                    name="Check"
+                    size={20}
+                    className="text-accent mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-muted-foreground">
+                    Собери свой комплект сегодня и&nbsp;
+                    <span className="text-accent font-bold">
+                      получи подарок
+                    </span>{" "}
+                    в&nbsp;конце!
+                  </span>
                 </li>
               </ul>
             </div>
-            
-            <Button 
+
+            <Button
               onClick={() => setWelcomeModalOpen(false)}
               className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-6 text-lg font-semibold"
             >
-              <Icon name="Settings" size={20} className="mr-2" />
-              В конфигуратор
+              <Icon name="Settings" size={20} className="mr-2" />В конфигуратор
             </Button>
           </Card>
         </div>
@@ -751,7 +786,11 @@ const Index = () => {
                     {/* Карточка 2: Механизм */}
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
-                        <Icon name="Settings" size={20} className="text-accent" />
+                        <Icon
+                          name="Settings"
+                          size={20}
+                          className="text-accent"
+                        />
                         <h3 className="text-base font-semibold">Механизм</h3>
                       </div>
                       <RadioGroup
@@ -1040,16 +1079,28 @@ const Index = () => {
                     <Card className="min-w-full snap-start p-3 bg-card border-border/40 flex-shrink-0 h-full overflow-y-auto">
                       <div className="flex items-center gap-2 mb-3">
                         <Icon name="Gift" size={20} className="text-accent" />
-                        <h3 className="text-base font-semibold">Ваш подарок при заказе сегодня</h3>
+                        <h3 className="text-base font-semibold">
+                          Ваш подарок при заказе сегодня
+                        </h3>
                       </div>
                       <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-foreground">Финский клинок</p>
-                            <p className="text-xs text-muted-foreground line-through">4 200 ₽</p>
-                            <p className="text-lg font-bold text-accent mt-1">Бесплатно</p>
+                            <p className="font-medium text-foreground">
+                              Финский клинок
+                            </p>
+                            <p className="text-xs text-muted-foreground line-through">
+                              4 200 ₽
+                            </p>
+                            <p className="text-lg font-bold text-accent mt-1">
+                              Бесплатно
+                            </p>
                           </div>
-                          <Icon name="Gift" size={48} className="text-accent opacity-20" />
+                          <Icon
+                            name="Gift"
+                            size={48}
+                            className="text-accent opacity-20"
+                          />
                         </div>
                       </div>
                     </Card>
@@ -1491,7 +1542,10 @@ const Index = () => {
                                 : "border-border/40"
                             }`}
                             onClick={() =>
-                              setConfig((prev) => ({ ...prev, mechanism: mech.id }))
+                              setConfig((prev) => ({
+                                ...prev,
+                                mechanism: mech.id,
+                              }))
                             }
                           >
                             <div className="flex items-center gap-2">
@@ -1761,22 +1815,33 @@ const Index = () => {
                           ))}
                         </div>
                       </RadioGroup>
-
                     </div>
                   </Card>
 
                   {/* Карточка: Подарок */}
                   <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden p-3">
-                    <h3 className="text-base font-semibold mb-2">Ваш подарок при заказе сегодня</h3>
+                    <h3 className="text-base font-semibold mb-2">
+                      Ваш подарок при заказе сегодня
+                    </h3>
                     <div className="flex-1 flex items-center justify-center py-2">
                       <div className="bg-accent/10 rounded-lg p-3 border-2 border-accent/20 w-full">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-foreground text-sm">Финский клинок</p>
-                            <p className="text-xs text-muted-foreground line-through mt-0.5">4 200 ₽</p>
-                            <p className="text-lg font-bold text-accent mt-0.5">Бесплатно</p>
+                            <p className="font-medium text-foreground text-sm">
+                              Финский клинок
+                            </p>
+                            <p className="text-xs text-muted-foreground line-through mt-0.5">
+                              4 200 ₽
+                            </p>
+                            <p className="text-lg font-bold text-accent mt-0.5">
+                              Бесплатно
+                            </p>
                           </div>
-                          <Icon name="Gift" size={40} className="text-accent opacity-20" />
+                          <Icon
+                            name="Gift"
+                            size={40}
+                            className="text-accent opacity-20"
+                          />
                         </div>
                       </div>
                     </div>
