@@ -642,7 +642,7 @@ const Index = () => {
                     key={imageKey}
                     src={currentImage}
                     alt="Комплект ножа"
-                    className="w-full h-full object-contain animate-fade-in"
+                    className="w-full h-full object-cover animate-fade-in"
                   />
 
                   {/* Иконка информации */}
@@ -1331,7 +1331,7 @@ const Index = () => {
                     key={imageKey}
                     src={currentImage}
                     alt="Комплект ножа"
-                    className="w-full h-full object-contain animate-fade-in"
+                    className="w-full h-full object-cover animate-fade-in"
                   />
 
                   {/* Иконка информации */}
