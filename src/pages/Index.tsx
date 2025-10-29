@@ -628,6 +628,17 @@ const Index = () => {
                     className="w-full h-full object-cover animate-fade-in"
                   />
 
+                  {/* Набор отвёрток - показываем поверх основного изображения */}
+                  {config.toolkit && (
+                    <div className="absolute bottom-4 right-4 w-48 animate-fade-in z-10">
+                      <img
+                        src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
+                        alt="Набор отвёрток"
+                        className="w-full h-auto object-cover rounded-lg shadow-2xl border-2 border-accent/30"
+                      />
+                    </div>
+                  )}
+
                   {/* Иконка информации */}
                   <button
                     onClick={() => setInfoOpen(!infoOpen)}
@@ -1012,15 +1023,6 @@ const Index = () => {
                             </p>
                             <p className="text-sm text-muted-foreground">+750 ₽</p>
                           </div>
-                          {config.toolkit && (
-                            <div className="mt-2 rounded-md overflow-hidden">
-                              <img
-                                src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
-                                alt="Набор отвёрток"
-                                className="w-full h-auto object-cover"
-                              />
-                            </div>
-                          )}
                         </div>
 
                         <div
@@ -1322,6 +1324,17 @@ const Index = () => {
                     alt="Комплект ножа"
                     className="w-full h-full object-cover animate-fade-in"
                   />
+
+                  {/* Набор отвёрток - показываем поверх основного изображения */}
+                  {config.toolkit && (
+                    <div className="absolute bottom-3 right-3 w-32 animate-fade-in z-10">
+                      <img
+                        src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
+                        alt="Набор отвёрток"
+                        className="w-full h-auto object-cover rounded-lg shadow-2xl border-2 border-accent/30"
+                      />
+                    </div>
+                  )}
 
                   {/* Иконка информации */}
                   <button
@@ -1772,15 +1785,6 @@ const Index = () => {
                             +750 ₽
                           </p>
                         </div>
-                        {config.toolkit && (
-                          <div className="mt-2 rounded-md overflow-hidden">
-                            <img
-                              src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
-                              alt="Набор отвёрток"
-                              className="w-full h-auto object-cover"
-                            />
-                          </div>
-                        )}
                       </div>
 
                       <div
