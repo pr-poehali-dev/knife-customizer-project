@@ -324,7 +324,7 @@ const Index = () => {
     const sheath = sheathOptions.find((s) => s.id === config.sheath);
     if (sheath) total += sheath.price;
 
-    if (config.toolkit) total += 1200;
+    if (config.toolkit) total += 750;
     if (config.oilcan) total += 450;
 
     const packaging = packagingOptions.find((p) => p.id === config.packaging);
