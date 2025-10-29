@@ -972,68 +972,75 @@ const Index = () => {
                         </h3>
                       </div>
                       <div className="space-y-2">
-                        <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-accent/10 transition-colors">
-                          <Checkbox
-                            id="springs-desktop"
-                            checked={config.springs}
-                            onCheckedChange={(checked) =>
-                              setConfig({
-                                ...config,
-                                springs: checked as boolean,
-                              })
-                            }
-                          />
-                          <Label
-                            htmlFor="springs-desktop"
-                            className="flex-1 flex items-center justify-between cursor-pointer"
-                          >
-                            <span>Пружины</span>
-                            <span className="text-sm text-muted-foreground font-medium">
-                              800 ₽
-                            </span>
-                          </Label>
+                        <div
+                          onClick={() =>
+                            setConfig((prev) => ({
+                              ...prev,
+                              springs: !prev.springs,
+                            }))
+                          }
+                          className={`p-2.5 rounded-lg border-2 cursor-pointer ${
+                            config.springs
+                              ? "border-accent bg-accent/10"
+                              : "border-border/40"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Checkbox checked={config.springs} />
+                            <p className="font-medium text-sm flex-1">Пружины</p>
+                            <p className="text-sm text-muted-foreground">+800 ₽</p>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
-                          <Checkbox
-                            id="toolkit-desktop"
-                            checked={config.toolkit}
-                            onCheckedChange={(checked) =>
-                              setConfig({
-                                ...config,
-                                toolkit: checked as boolean,
-                              })
-                            }
-                          />
-                          <Label
-                            htmlFor="toolkit-desktop"
-                            className="flex-1 flex items-center justify-between cursor-pointer"
-                          >
-                            <span>Инструменты</span>
-                            <span className="text-sm text-muted-foreground font-medium">
-                              1,200 ₽
-                            </span>
-                          </Label>
+
+                        <div
+                          onClick={() =>
+                            setConfig((prev) => ({
+                              ...prev,
+                              toolkit: !prev.toolkit,
+                            }))
+                          }
+                          className={`p-2.5 rounded-lg border-2 cursor-pointer ${
+                            config.toolkit
+                              ? "border-accent bg-accent/10"
+                              : "border-border/40"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Checkbox checked={config.toolkit} />
+                            <p className="font-medium text-sm flex-1">
+                              Набор отвёрток
+                            </p>
+                            <p className="text-sm text-muted-foreground">+750 ₽</p>
+                          </div>
+                          {config.toolkit && (
+                            <div className="mt-2 rounded-md overflow-hidden">
+                              <img
+                                src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
+                                alt="Набор отвёрток"
+                                className="w-full h-auto object-cover"
+                              />
+                            </div>
+                          )}
                         </div>
-                        <div className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent/10 transition-colors">
-                          <Checkbox
-                            id="oilcan-desktop"
-                            checked={config.oilcan}
-                            onCheckedChange={(checked) =>
-                              setConfig({
-                                ...config,
-                                oilcan: checked as boolean,
-                              })
-                            }
-                          />
-                          <Label
-                            htmlFor="oilcan-desktop"
-                            className="flex-1 flex items-center justify-between cursor-pointer"
-                          >
-                            <span>Масленка</span>
-                            <span className="text-sm text-muted-foreground font-medium">
-                              450 ₽
-                            </span>
-                          </Label>
+
+                        <div
+                          onClick={() =>
+                            setConfig((prev) => ({
+                              ...prev,
+                              oilcan: !prev.oilcan,
+                            }))
+                          }
+                          className={`p-2.5 rounded-lg border-2 cursor-pointer ${
+                            config.oilcan
+                              ? "border-accent bg-accent/10"
+                              : "border-border/40"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Checkbox checked={config.oilcan} />
+                            <p className="font-medium text-sm flex-1">Масленка</p>
+                            <p className="text-sm text-muted-foreground">+450 ₽</p>
+                          </div>
                         </div>
                       </div>
                     </Card>
@@ -1762,9 +1769,18 @@ const Index = () => {
                             Набор отвёрток
                           </p>
                           <p className="text-sm text-muted-foreground">
-                            +1 200 ₽
+                            +750 ₽
                           </p>
                         </div>
+                        {config.toolkit && (
+                          <div className="mt-2 rounded-md overflow-hidden">
+                            <img
+                              src="https://cdn.poehali.dev/files/315596c7-d385-4693-a36a-8b92b8266588.jpg"
+                              alt="Набор отвёрток"
+                              className="w-full h-auto object-cover"
+                            />
+                          </div>
+                        )}
                       </div>
 
                       <div
