@@ -1971,7 +1971,7 @@ const Index = () => {
 
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="text-center space-y-2">
-                <div className="text-4xl font-bold text-accent">10+</div>
+                <div className="text-4xl font-bold text-accent">8+</div>
                 <p className="text-sm text-muted-foreground">Лет опыта</p>
               </div>
               <div className="text-center space-y-2">
