@@ -26,6 +26,8 @@ interface Config {
   gift: boolean;
 }
 
+type FocusedOption = 'blades' | 'finish' | 'body' | 'mechanism' | 'springs' | 'sheath' | 'toolkit' | 'oilcan' | 'packaging' | 'gift' | null;
+
 const Index = () => {
   const [activeSection, setActiveSection] = useState<
     "configurator" | "gallery" | "about"
@@ -40,6 +42,8 @@ const Index = () => {
   const [infoOpen, setInfoOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(true);
+
+  const [focusedOption, setFocusedOption] = useState<FocusedOption>(null);
 
   const [config, setConfig] = useState<Config>({
     blades: [],
@@ -277,23 +281,36 @@ const Index = () => {
   };
 
   useEffect(() => {
-    if (config.blades.length > 0) {
+    let newImage = knifeImages["default"];
+
+    if (focusedOption === 'toolkit' && config.toolkit) {
+      newImage = "https://cdn.poehali.dev/files/01624b71-7767-465d-a9d8-66fcc02203d2.png";
+    } else if (focusedOption === 'springs' && config.springs) {
+      newImage = knifeImages["default"];
+    } else if (focusedOption === 'oilcan' && config.oilcan) {
+      newImage = knifeImages["default"];
+    } else if (focusedOption === 'body' && config.body !== 'none') {
+      newImage = knifeImages["default"];
+    } else if (focusedOption === 'mechanism' && config.mechanism !== 'none') {
+      newImage = knifeImages["default"];
+    } else if (focusedOption === 'sheath' && config.sheath !== 'none') {
+      newImage = knifeImages["default"];
+    } else if (focusedOption === 'packaging') {
+      newImage = knifeImages["default"];
+    } else if (focusedOption === 'gift' && config.gift) {
+      newImage = knifeImages["default"];
+    } else if (config.blades.length > 0) {
       const blade = config.blades[0];
       const finish = config.finish;
       const key = `${blade}-${finish}`;
-      const newImage = knifeImages[key] || knifeImages["default"];
-
-      if (newImage !== currentImage) {
-        setCurrentImage(newImage);
-        setImageKey((prev) => prev + 1);
-      }
-    } else {
-      if (currentImage !== knifeImages["default"]) {
-        setCurrentImage(knifeImages["default"]);
-        setImageKey((prev) => prev + 1);
-      }
+      newImage = knifeImages[key] || knifeImages["default"];
     }
-  }, [config.blades, config.finish]);
+
+    if (newImage !== currentImage) {
+      setCurrentImage(newImage);
+      setImageKey((prev) => prev + 1);
+    }
+  }, [config, focusedOption]);
 
   useEffect(() => {
     if (!hasInteracted && getCurrentSpecs().length > 0) {
@@ -625,19 +642,8 @@ const Index = () => {
                     key={imageKey}
                     src={currentImage}
                     alt="Комплект ножа"
-                    className="w-full h-full object-cover animate-fade-in"
+                    className="w-full h-full object-contain animate-fade-in"
                   />
-
-                  {/* Набор отвёрток - показываем поверх основного изображения */}
-                  {config.toolkit && (
-                    <div className="absolute bottom-4 right-4 w-48 animate-fade-in z-10">
-                      <img
-                        src="https://cdn.poehali.dev/files/01624b71-7767-465d-a9d8-66fcc02203d2.png"
-                        alt="Набор отвёрток"
-                        className="w-full h-auto object-cover rounded-lg shadow-2xl"
-                      />
-                    </div>
-                  )}
 
                   {/* Иконка информации */}
                   <button
@@ -984,12 +990,13 @@ const Index = () => {
                       </div>
                       <div className="space-y-2">
                         <div
-                          onClick={() =>
+                          onClick={() => {
                             setConfig((prev) => ({
                               ...prev,
                               springs: !prev.springs,
-                            }))
-                          }
+                            }));
+                            setFocusedOption('springs');
+                          }}
                           className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                             config.springs
                               ? "border-accent bg-accent/10"
@@ -1004,12 +1011,13 @@ const Index = () => {
                         </div>
 
                         <div
-                          onClick={() =>
+                          onClick={() => {
                             setConfig((prev) => ({
                               ...prev,
                               toolkit: !prev.toolkit,
-                            }))
-                          }
+                            }));
+                            setFocusedOption('toolkit');
+                          }}
                           className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                             config.toolkit
                               ? "border-accent bg-accent/10"
@@ -1026,12 +1034,13 @@ const Index = () => {
                         </div>
 
                         <div
-                          onClick={() =>
+                          onClick={() => {
                             setConfig((prev) => ({
                               ...prev,
                               oilcan: !prev.oilcan,
-                            }))
-                          }
+                            }));
+                            setFocusedOption('oilcan');
+                          }}
                           className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                             config.oilcan
                               ? "border-accent bg-accent/10"
@@ -1322,19 +1331,8 @@ const Index = () => {
                     key={imageKey}
                     src={currentImage}
                     alt="Комплект ножа"
-                    className="w-full h-full object-cover animate-fade-in"
+                    className="w-full h-full object-contain animate-fade-in"
                   />
-
-                  {/* Набор отвёрток - показываем поверх основного изображения */}
-                  {config.toolkit && (
-                    <div className="absolute bottom-3 right-3 w-32 animate-fade-in z-10">
-                      <img
-                        src="https://cdn.poehali.dev/files/01624b71-7767-465d-a9d8-66fcc02203d2.png"
-                        alt="Набор отвёрток"
-                        className="w-full h-auto object-cover rounded-lg shadow-2xl"
-                      />
-                    </div>
-                  )}
 
                   {/* Иконка информации */}
                   <button
@@ -1740,12 +1738,13 @@ const Index = () => {
                   <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
                     <div className="space-y-1.5 overflow-y-auto h-full p-3">
                       <div
-                        onClick={() =>
+                        onClick={() => {
                           setConfig((prev) => ({
                             ...prev,
                             springs: !prev.springs,
-                          }))
-                        }
+                          }));
+                          setFocusedOption('springs');
+                        }}
                         className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                           config.springs
                             ? "border-accent bg-accent/10"
@@ -1764,12 +1763,13 @@ const Index = () => {
                       </div>
 
                       <div
-                        onClick={() =>
+                        onClick={() => {
                           setConfig((prev) => ({
                             ...prev,
                             toolkit: !prev.toolkit,
-                          }))
-                        }
+                          }));
+                          setFocusedOption('toolkit');
+                        }}
                         className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                           config.toolkit
                             ? "border-accent bg-accent/10"
@@ -1788,12 +1788,13 @@ const Index = () => {
                       </div>
 
                       <div
-                        onClick={() =>
+                        onClick={() => {
                           setConfig((prev) => ({
                             ...prev,
                             oilcan: !prev.oilcan,
-                          }))
-                        }
+                          }));
+                          setFocusedOption('oilcan');
+                        }}
                         className={`p-2.5 rounded-lg border-2 cursor-pointer ${
                           config.oilcan
                             ? "border-accent bg-accent/10"
