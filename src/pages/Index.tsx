@@ -17,6 +17,7 @@ interface Config {
   blades: string[];
   finish: string;
   body: string;
+  mechanism: string;
   springs: boolean;
   sheath: string;
   toolkit: boolean;
@@ -43,6 +44,7 @@ const Index = () => {
     blades: [],
     finish: "satin",
     body: "none",
+    mechanism: "none",
     springs: false,
     sheath: "none",
     toolkit: false,
@@ -66,6 +68,11 @@ const Index = () => {
   const bodyOptions = [
     { id: "none", name: "Без корпуса", price: 0 },
     { id: "aluminum", name: "Прочный сплав алюминия", price: 1350 },
+  ];
+
+  const mechanismOptions = [
+    { id: "none", name: "Без механизма", price: 0 },
+    { id: "double-spring", name: "Надежный механизм с двумя пружинами", price: 1350 },
   ];
 
   const sheathOptions = [
@@ -302,6 +309,9 @@ const Index = () => {
 
     const body = bodyOptions.find((b) => b.id === config.body);
     if (body) total += body.price;
+
+    const mechanism = mechanismOptions.find((m) => m.id === config.mechanism);
+    if (mechanism) total += mechanism.price;
 
     if (config.springs) total += 800;
 
@@ -1290,6 +1300,7 @@ const Index = () => {
                     {
                       [
                         "Корпус",
+                        "Механизм",
                         "Клинки",
                         "Обработка",
                         "Ножны",
@@ -1304,6 +1315,7 @@ const Index = () => {
                   <div className="flex justify-center gap-2">
                     {[
                       "Корпус",
+                      "Механизм",
                       "Клинки",
                       "Обработка",
                       "Ножны",
@@ -1344,7 +1356,7 @@ const Index = () => {
                     const container = document.querySelector(
                       ".mobile-config-scroll",
                     );
-                    if (container && mobileActiveCard < 6) {
+                    if (container && mobileActiveCard < 7) {
                       const cardWidth =
                         container.querySelector(".snap-center")?.clientWidth ||
                         300;
@@ -1355,7 +1367,7 @@ const Index = () => {
                       });
                     }
                   }}
-                  disabled={mobileActiveCard === 6}
+                  disabled={mobileActiveCard === 7}
                   className="p-2 rounded-full bg-accent/90 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
                   <Icon name="ChevronRight" size={20} />
@@ -1414,6 +1426,50 @@ const Index = () => {
                                 {body.price === 0
                                   ? "Бесплатно"
                                   : `+${body.price.toLocaleString()} ₽`}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </Card>
+
+                  {/* Карточка: Механизм */}
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
+                    <RadioGroup
+                      value={config.mechanism}
+                      onValueChange={(value) =>
+                        setConfig((prev) => ({ ...prev, mechanism: value }))
+                      }
+                    >
+                      <div className="space-y-1.5 overflow-y-auto h-full p-3">
+                        {mechanismOptions.map((mech) => (
+                          <div
+                            key={mech.id}
+                            className={`p-2.5 rounded-lg border-2 cursor-pointer ${
+                              config.mechanism === mech.id
+                                ? "border-accent bg-accent/10"
+                                : "border-border/40"
+                            }`}
+                            onClick={() =>
+                              setConfig((prev) => ({ ...prev, mechanism: mech.id }))
+                            }
+                          >
+                            <div className="flex items-center gap-2">
+                              <RadioGroupItem
+                                value={mech.id}
+                                id={`mobile-mech-${mech.id}`}
+                              />
+                              <Label
+                                htmlFor={`mobile-mech-${mech.id}`}
+                                className="flex-1 cursor-pointer font-medium text-sm"
+                              >
+                                {mech.name}
+                              </Label>
+                              <p className="text-sm text-muted-foreground">
+                                {mech.price === 0
+                                  ? "Бесплатно"
+                                  : `+${mech.price.toLocaleString()} ₽`}
                               </p>
                             </div>
                           </div>
