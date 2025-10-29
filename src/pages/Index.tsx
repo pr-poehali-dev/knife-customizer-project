@@ -1671,32 +1671,32 @@ const Index = () => {
                   </Card>
 
                   {/* Карточка: Подарок */}
-                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden p-4">
-                    <h3 className="text-base font-semibold mb-3">Ваш подарок при заказе сегодня</h3>
-                    <div className="flex-1 flex items-center justify-center">
-                      <div className="bg-accent/10 rounded-lg p-4 border-2 border-accent/20 w-full">
+                  <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden p-3">
+                    <h3 className="text-base font-semibold mb-2">Ваш подарок при заказе сегодня</h3>
+                    <div className="flex-1 flex items-center justify-center py-2">
+                      <div className="bg-accent/10 rounded-lg p-3 border-2 border-accent/20 w-full">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="font-medium text-foreground">Финский клинок</p>
-                            <p className="text-xs text-muted-foreground line-through mt-1">4 200 ₽</p>
-                            <p className="text-xl font-bold text-accent mt-1">Бесплатно</p>
+                            <p className="font-medium text-foreground text-sm">Финский клинок</p>
+                            <p className="text-xs text-muted-foreground line-through mt-0.5">4 200 ₽</p>
+                            <p className="text-lg font-bold text-accent mt-0.5">Бесплатно</p>
                           </div>
-                          <Icon name="Gift" size={48} className="text-accent opacity-20" />
+                          <Icon name="Gift" size={40} className="text-accent opacity-20" />
                         </div>
                       </div>
                     </div>
 
-                    <Separator className="bg-border/40 my-3" />
+                    <Separator className="bg-border/40 my-2" />
 
                     <Button
-                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-5"
+                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold py-4"
                       disabled={config.blades.length === 0}
                     >
                       Оформить заказ
                     </Button>
 
                     {config.blades.length === 0 && (
-                      <p className="text-xs text-muted-foreground text-center mt-2">
+                      <p className="text-xs text-muted-foreground text-center mt-1">
                         Выберите хотя бы один клинок
                       </p>
                     )}
