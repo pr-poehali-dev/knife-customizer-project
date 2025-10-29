@@ -284,7 +284,7 @@ const Index = () => {
     let newImage = knifeImages["default"];
 
     if (focusedOption === 'toolkit' && config.toolkit) {
-      newImage = "https://cdn.poehali.dev/files/01624b71-7767-465d-a9d8-66fcc02203d2.png";
+      newImage = "https://cdn.poehali.dev/files/941c0a54-fb77-4d38-8082-2f7e0eb69faf.jpg";
     } else if (focusedOption === 'springs' && config.springs) {
       newImage = knifeImages["default"];
     } else if (focusedOption === 'oilcan' && config.oilcan) {
