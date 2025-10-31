@@ -290,7 +290,7 @@ const Index = () => {
     } else if (focusedOption === 'oilcan' && config.oilcan) {
       newImage = knifeImages["default"];
     } else if (focusedOption === 'body' && config.body !== 'none') {
-      newImage = knifeImages["default"];
+      newImage = "https://cdn.poehali.dev/files/d136c42b-0639-4c90-80e2-7f2859daf61b.jpg";
     } else if (focusedOption === 'mechanism' && config.mechanism !== 'none') {
       newImage = knifeImages["default"];
     } else if (focusedOption === 'sheath' && config.sheath !== 'none') {
