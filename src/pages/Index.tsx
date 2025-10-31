@@ -292,7 +292,7 @@ const Index = () => {
     } else if (focusedOption === 'body' && config.body !== 'none') {
       newImage = "https://cdn.poehali.dev/files/d136c42b-0639-4c90-80e2-7f2859daf61b.jpg";
     } else if (focusedOption === 'mechanism' && config.mechanism !== 'none') {
-      newImage = knifeImages["default"];
+      newImage = "https://cdn.poehali.dev/files/f1e2eaf2-adb4-4e91-85ef-b0fc85ec178b.jpg";
     } else if (focusedOption === 'sheath' && config.sheath !== 'none') {
       newImage = knifeImages["default"];
     } else if (focusedOption === 'packaging') {
@@ -815,9 +815,10 @@ const Index = () => {
                       </div>
                       <RadioGroup
                         value={config.mechanism}
-                        onValueChange={(value) =>
-                          setConfig({ ...config, mechanism: value })
-                        }
+                        onValueChange={(value) => {
+                          setConfig({ ...config, mechanism: value });
+                          setFocusedOption('mechanism');
+                        }}
                       >
                         <div className="space-y-2">
                           {mechanismOptions.map((mech) => (
@@ -1571,9 +1572,10 @@ const Index = () => {
                   <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
                     <RadioGroup
                       value={config.mechanism}
-                      onValueChange={(value) =>
-                        setConfig((prev) => ({ ...prev, mechanism: value }))
-                      }
+                      onValueChange={(value) => {
+                        setConfig((prev) => ({ ...prev, mechanism: value }));
+                        setFocusedOption('mechanism');
+                      }}
                     >
                       <div className="space-y-1.5 overflow-y-auto h-full p-3">
                         {mechanismOptions.map((mech) => (
@@ -1584,12 +1586,13 @@ const Index = () => {
                                 ? "border-accent bg-accent/10"
                                 : "border-border/40"
                             }`}
-                            onClick={() =>
+                            onClick={() => {
                               setConfig((prev) => ({
                                 ...prev,
                                 mechanism: mech.id,
-                              }))
-                            }
+                              }));
+                              setFocusedOption('mechanism');
+                            }}
                           >
                             <div className="flex items-center gap-2">
                               <RadioGroupItem
