@@ -277,7 +277,7 @@ const Index = () => {
     "standard-satin":
       "https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/cdeaf906-9a25-4202-905d-deaf64047ae7.jpg",
     default:
-      "https://cdn.poehali.dev/projects/411d1c8a-e6f1-4727-828f-d72a38a8d23c/files/2fa9c414-50bb-445c-898c-5479aa25d007.jpg",
+      "https://cdn.poehali.dev/files/e16a3223-9157-4cc2-92a1-7ab413468068.jpg",
   };
 
   useEffect(() => {
