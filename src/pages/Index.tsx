@@ -771,9 +771,10 @@ const Index = () => {
                       </div>
                       <RadioGroup
                         value={config.body}
-                        onValueChange={(value) =>
-                          setConfig({ ...config, body: value })
-                        }
+                        onValueChange={(value) => {
+                          setConfig({ ...config, body: value });
+                          setFocusedOption('body');
+                        }}
                       >
                         <div className="space-y-2">
                           {bodyOptions.map((body) => (
@@ -1524,9 +1525,10 @@ const Index = () => {
                   <Card className="min-w-[85vw] snap-center bg-card border-border/40 flex flex-col h-[45vh] overflow-hidden">
                     <RadioGroup
                       value={config.body}
-                      onValueChange={(value) =>
-                        setConfig((prev) => ({ ...prev, body: value }))
-                      }
+                      onValueChange={(value) => {
+                        setConfig((prev) => ({ ...prev, body: value }));
+                        setFocusedOption('body');
+                      }}
                     >
                       <div className="space-y-1.5 overflow-y-auto h-full p-3">
                         {bodyOptions.map((body) => (
@@ -1537,9 +1539,10 @@ const Index = () => {
                                 ? "border-accent bg-accent/10"
                                 : "border-border/40"
                             }`}
-                            onClick={() =>
-                              setConfig((prev) => ({ ...prev, body: body.id }))
-                            }
+                            onClick={() => {
+                              setConfig((prev) => ({ ...prev, body: body.id }));
+                              setFocusedOption('body');
+                            }}
                           >
                             <div className="flex items-center gap-2">
                               <RadioGroupItem
