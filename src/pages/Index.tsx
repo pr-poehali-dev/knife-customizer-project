@@ -1387,13 +1387,71 @@ const Index = () => {
                     </div>
                   )}
 
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 to-transparent p-3">
-                    <p className="text-xs text-muted-foreground">
-                      {config.blades.length > 0
-                        ? `${config.blades.length} клинков • ${finishOptions.find((f) => f.id === config.finish)?.name}`
-                        : "Выберите клинки"}
-                    </p>
-                    <div className="flex items-center justify-between mt-1">
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 to-transparent p-3 max-h-[45%] overflow-y-auto">
+                    <div className="space-y-0.5 text-xs mb-2">
+                      {config.blades.length > 0 ? (
+                        <>
+                          {config.blades.map((bladeId) => {
+                            const blade = bladeOptions.find((b) => b.id === bladeId);
+                            return blade ? (
+                              <div key={bladeId} className="flex justify-between items-center">
+                                <span className="text-foreground truncate pr-2">{blade.name}</span>
+                                <span className="text-muted-foreground flex-shrink-0">{blade.price.toLocaleString()} ₽</span>
+                              </div>
+                            ) : null;
+                          })}
+                          <div className="flex justify-between items-center">
+                            <span className="text-foreground truncate pr-2">{finishOptions.find((f) => f.id === config.finish)?.name}</span>
+                            <span className="text-muted-foreground flex-shrink-0">{finishOptions.find((f) => f.id === config.finish)?.price.toLocaleString()} ₽</span>
+                          </div>
+                          {config.body !== "none" && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground truncate pr-2">{bodyOptions.find((b) => b.id === config.body)?.name}</span>
+                              <span className="text-muted-foreground flex-shrink-0">{bodyOptions.find((b) => b.id === config.body)?.price.toLocaleString()} ₽</span>
+                            </div>
+                          )}
+                          {config.mechanism !== "none" && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground truncate pr-2">{mechanismOptions.find((m) => m.id === config.mechanism)?.name}</span>
+                              <span className="text-muted-foreground flex-shrink-0">{mechanismOptions.find((m) => m.id === config.mechanism)?.price.toLocaleString()} ₽</span>
+                            </div>
+                          )}
+                          {config.sheath !== "none" && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground truncate pr-2">{sheathOptions.find((s) => s.id === config.sheath)?.name}</span>
+                              <span className="text-muted-foreground flex-shrink-0">{sheathOptions.find((s) => s.id === config.sheath)?.price.toLocaleString()} ₽</span>
+                            </div>
+                          )}
+                          {config.springs && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">Пружины</span>
+                              <span className="text-muted-foreground flex-shrink-0">800 ₽</span>
+                            </div>
+                          )}
+                          {config.toolkit && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">Инструменты</span>
+                              <span className="text-muted-foreground flex-shrink-0">1,200 ₽</span>
+                            </div>
+                          )}
+                          {config.oilcan && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground">Масленка</span>
+                              <span className="text-muted-foreground flex-shrink-0">450 ₽</span>
+                            </div>
+                          )}
+                          {config.packaging !== "bag" && (
+                            <div className="flex justify-between items-center">
+                              <span className="text-foreground truncate pr-2">{packagingOptions.find((p) => p.id === config.packaging)?.name}</span>
+                              <span className="text-muted-foreground flex-shrink-0">{packagingOptions.find((p) => p.id === config.packaging)?.price.toLocaleString()} ₽</span>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <p className="text-muted-foreground/60">Выберите клинки</p>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between border-t border-border/40 pt-1.5">
                       <span className="text-sm font-semibold">Итого:</span>
                       <span className="text-lg font-bold text-accent">
                         {calculateTotal().toLocaleString()} ₽
